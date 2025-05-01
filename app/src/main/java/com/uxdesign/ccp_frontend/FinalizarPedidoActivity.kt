@@ -33,6 +33,8 @@ class FinalizarPedidoActivity : AppCompatActivity() {
     private lateinit var editNumProductos: EditText
     private lateinit var editTotal: EditText
     private lateinit var editComentarios: EditText
+    private var modoEscalaGrises = false
+    private var color: String? = "ORANGE"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +44,7 @@ class FinalizarPedidoActivity : AppCompatActivity() {
         val idUsuario = intent.getStringExtra("id_usuario") ?: "desconocido"
         val cantidadProd = intent.getIntExtra("cantidad_productos", 0)
         val valorTotal = intent.getDoubleExtra("valor_total", 0.0)
+        color = intent.getStringExtra("color")
 
         editCliente = findViewById(R.id.editCliente)
         editFecha = findViewById(R.id.editFechaEntrega)
@@ -65,34 +68,57 @@ class FinalizarPedidoActivity : AppCompatActivity() {
         val buttonRegistrar: Button = findViewById(R.id.buttonRegistrar)
         val imageEye: ImageView = findViewById(R.id.imageOjoN)
 
-        imageEye.visibility = View.GONE
-
-        imageEye.setOnClickListener {
-
-
-        //val buttonOjo: Button = findViewById(R.id.botonOjo)
-        //buttonOjo.setOnClickListener {
-        // mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
-        // titleCliente.setTextColor(resources.getColor(R.color.greytext, null))
-        // titleDate.setTextColor(resources.getColor(R.color.greytext, null))
-        // titleHora.setTextColor(resources.getColor(R.color.greytext, null))
-        // titleCantidad.setTextColor(resources.getColor(R.color.greytext, null))
-        // titleTotal.setTextColor(resources.getColor(R.color.greytext, null))
-        // titleComentarios.setTextColor(resources.getColor(R.color.greytext, null))
-        // buttonRegistrar.setBackgroundColor(resources.getColor(R.color.greytext, null))
+        if (color == "ORANGE") {
+            mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
+            titleCliente.setTextColor(resources.getColor(R.color.orange, null))
+            titleDate.setTextColor(resources.getColor(R.color.orange, null))
+            titleHora.setTextColor(resources.getColor(R.color.orange, null))
+            titleCantidad.setTextColor(resources.getColor(R.color.orange, null))
+            titleTotal.setTextColor(resources.getColor(R.color.orange, null))
+            titleComentarios.setTextColor(resources.getColor(R.color.orange, null))
+            buttonRegistrar.setBackgroundColor(resources.getColor(R.color.orange, null))
+            imageEye.setImageResource(R.drawable.pinkeye)
+            modoEscalaGrises = false
+        }else{
+            mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
+            titleCliente.setTextColor(resources.getColor(R.color.darkgrey, null))
+            titleDate.setTextColor(resources.getColor(R.color.darkgrey, null))
+            titleHora.setTextColor(resources.getColor(R.color.darkgrey, null))
+            titleCantidad.setTextColor(resources.getColor(R.color.darkgrey, null))
+            titleTotal.setTextColor(resources.getColor(R.color.darkgrey, null))
+            titleComentarios.setTextColor(resources.getColor(R.color.darkgrey, null))
+            buttonRegistrar.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
             imageEye.setImageResource(R.drawable.blackeye)
-            imageEye.visibility = View.GONE
-
+            modoEscalaGrises = true
         }
 
-        //User interface
-        // mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
-        // titleCliente.setTextColor(resources.getColor(R.color.pink, null))
-        // titleDate.setTextColor(resources.getColor(R.color.pink, null))
-        // titleHora.setTextColor(resources.getColor(R.color.pink, null))
-        // titleCantidad.setTextColor(resources.getColor(R.color.pink, null))
-        // titleTotal.setTextColor(resources.getColor(R.color.pink, null))
-        // titleComentarios.setTextColor(resources.getColor(R.color.pink, null))
+        imageEye.setOnClickListener {
+            modoEscalaGrises = !modoEscalaGrises
+            if (modoEscalaGrises == true) {
+                mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
+                titleCliente.setTextColor(resources.getColor(R.color.darkgrey, null))
+                titleDate.setTextColor(resources.getColor(R.color.darkgrey, null))
+                titleHora.setTextColor(resources.getColor(R.color.darkgrey, null))
+                titleCantidad.setTextColor(resources.getColor(R.color.darkgrey, null))
+                titleTotal.setTextColor(resources.getColor(R.color.darkgrey, null))
+                titleComentarios.setTextColor(resources.getColor(R.color.darkgrey, null))
+                buttonRegistrar.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
+                imageEye.setImageResource(R.drawable.blackeye)
+                color = "GREY"
+                Toast.makeText(this, "Se ha activado una ayuda visual", Toast.LENGTH_SHORT).show()
+            } else {
+                mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
+                titleCliente.setTextColor(resources.getColor(R.color.darkgrey, null))
+                titleDate.setTextColor(resources.getColor(R.color.darkgrey, null))
+                titleHora.setTextColor(resources.getColor(R.color.darkgrey, null))
+                titleCantidad.setTextColor(resources.getColor(R.color.darkgrey, null))
+                titleTotal.setTextColor(resources.getColor(R.color.darkgrey, null))
+                titleComentarios.setTextColor(resources.getColor(R.color.darkgrey, null))
+                buttonRegistrar.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
+                imageEye.setImageResource(R.drawable.pinkeye)
+                color = "ORANGE"
+            }
+        }
 
         //--------------------------------------
 

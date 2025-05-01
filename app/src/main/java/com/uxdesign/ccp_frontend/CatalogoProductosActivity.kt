@@ -23,7 +23,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class CatalogoProductosActivity : AppCompatActivity() {
     private val productos = mutableListOf<Producto>()
     private lateinit var apiService: ApiService
-
+    private var modoEscalaGrises = false
+    private var color = "ORANGE"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -36,26 +37,30 @@ class CatalogoProductosActivity : AppCompatActivity() {
         val buttonPedido: Button = findViewById(R.id.botonPedido)
         val imageEye: ImageView = findViewById(R.id.imageOjoN)
 
-        imageEye.visibility = View.GONE
-
         imageEye.setOnClickListener {
-
-            // mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
-           // buttonFinalizar.setBackgroundColor(resources.getColor(R.color.greytext, null))
-           // buttonPedido.setBackgroundColor(resources.getColor(R.color.greytext, null))
-            imageEye.setImageResource(R.drawable.blackeye)
-            imageEye.visibility = View.GONE
+            modoEscalaGrises = !modoEscalaGrises
+            if (modoEscalaGrises == true) {
+                mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
+                buttonFinalizar.setBackgroundColor(resources.getColor(R.color.greytext, null))
+                buttonPedido.setBackgroundColor(resources.getColor(R.color.greytext, null))
+                imageEye.setImageResource(R.drawable.blackeye)
+                color = "GREY"
+                Toast.makeText(this, "Se ha activado una ayuda visual", Toast.LENGTH_SHORT).show()
+            } else {
+                mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
+                buttonFinalizar.setBackgroundColor(resources.getColor(R.color.black, null))
+                buttonPedido.setBackgroundColor(resources.getColor(R.color.black, null))
+                imageEye.setImageResource(R.drawable.pinkeye)
+                color = "ORANGE"
+            }
         }
-
-        //User Interface Compras
-        // mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
-        //imageEye.visibility = View.VISIBLE
 
         val idUsuario = "b07e8ab8-b787-4f6d-8a85-6c506a3616f5"
 
         buttonPedido.setOnClickListener {
             val intent = Intent(this, VerPedidoActivity::class.java)
             intent.putExtra("id_usuario", idUsuario)
+            intent.putExtra("color", color )
             startActivity(intent)
         }
 
@@ -63,13 +68,14 @@ class CatalogoProductosActivity : AppCompatActivity() {
         buttonFinalizar.setOnClickListener {
              val intent = Intent(this, FinalizarPedidoActivity::class.java)
              intent.putExtra("id_usuario", idUsuario)
+             intent.putExtra("color", color )
              startActivity(intent)
         }
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewProductos)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val adapter = ProductoAdapter(productos)
+        val adapter = ProductoAdapter(productos, color)
         recyclerView.adapter = adapter
 
         val retrofit = Retrofit.Builder()

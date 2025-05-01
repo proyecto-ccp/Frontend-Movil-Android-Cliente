@@ -27,6 +27,8 @@ class DetalleProductoActivity : AppCompatActivity() {
     private lateinit var apiService: ApiService
     private var productoPrecio: Double = 0.0
     private var stockDisponible: Int = 0
+    private var modoEscalaGrises = false
+    private var color: String? = "ORANGE"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,31 +39,50 @@ class DetalleProductoActivity : AppCompatActivity() {
         val editValor: EditText = findViewById(R.id.editValor)
 
         //Adaptabilidad
+
         val mainLayout: ConstraintLayout = findViewById(R.id.main)
         val titleCanti: TextView = findViewById(R.id.tituloCantidad)
         val titleValue: TextView = findViewById(R.id.tituloValor)
         val agregarButton: Button = findViewById(R.id.buttonAgregar)
         val imageEye: ImageView = findViewById(R.id.imageOjoN)
 
-        imageEye.visibility = View.GONE
-
-        imageEye.setOnClickListener {
-
-
-        //val buttonOjo: Button = findViewById(R.id.botonOjo)
-        //buttonOjo.setOnClickListener {
-        // mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
-        // titleCanti.setTextColor(resources.getColor(R.color.greytext, null))
-        // titleValue.setTextColor(resources.getColor(R.color.greytext, null))
-        // agregarButton.setBackgroundColor(resources.getColor(R.color.buttonAgregar, null))
+        color = intent.getStringExtra("color")
+        if (color == "ORANGE") {
+            mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
+            titleCanti.setTextColor(resources.getColor(R.color.orange, null))
+            titleValue.setTextColor(resources.getColor(R.color.orange, null))
+            agregarButton.setBackgroundColor(resources.getColor(R.color.orange, null))
+            imageEye.setImageResource(R.drawable.pinkeye)
+            modoEscalaGrises = false
+        }else{
+            mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
+            titleCanti.setTextColor(resources.getColor(R.color.greytext, null))
+            titleValue.setTextColor(resources.getColor(R.color.greytext, null))
+            agregarButton.setBackgroundColor(resources.getColor(R.color.black, null))
             imageEye.setImageResource(R.drawable.blackeye)
-            imageEye.visibility = View.GONE
+            modoEscalaGrises = true
         }
 
-        //User interface
-        // mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
-        // titleCanti.setTextColor(resources.getColor(R.color.pink, null))
-        // titleValue.setTextColor(resources.getColor(R.color.pink, null))
+
+        imageEye.setOnClickListener {
+            modoEscalaGrises = !modoEscalaGrises
+            if (modoEscalaGrises == true) {
+                mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
+                titleCanti.setTextColor(resources.getColor(R.color.greytext, null))
+                titleValue.setTextColor(resources.getColor(R.color.greytext, null))
+                agregarButton.setBackgroundColor(resources.getColor(R.color.black, null))
+                imageEye.setImageResource(R.drawable.blackeye)
+                color = "GREY"
+                Toast.makeText(this, "Se ha activado una ayuda visual", Toast.LENGTH_SHORT).show()
+            } else {
+                mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
+                titleCanti.setTextColor(resources.getColor(R.color.orange, null))
+                titleValue.setTextColor(resources.getColor(R.color.orange, null))
+                agregarButton.setBackgroundColor(resources.getColor(R.color.orange, null))
+                imageEye.setImageResource(R.drawable.pinkeye)
+                color = "ORANGE"
+            }
+        }
 
         val productoId = intent.getIntExtra("producto_id", -1)
         val productoNombre = intent.getStringExtra("producto_nombre")
@@ -135,6 +156,7 @@ class DetalleProductoActivity : AppCompatActivity() {
                         Toast.makeText(this@DetalleProductoActivity, "Producto agregado al carrito", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this@DetalleProductoActivity, VerPedidoActivity::class.java).apply {
                             putExtra("id_usuario", idUsuario)
+                            putExtra("color", color)
                         }
                         startActivity(intent)
                     } else {

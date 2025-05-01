@@ -28,6 +28,8 @@ class VerPedidoActivity : AppCompatActivity() {
     private lateinit var apiService: ApiService
     private var totalProductos: Int = 0
     private var valorTotal: Double = 0.0
+    private var modoEscalaGrises = false
+    private var color: String? = "ORANGE"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,26 +44,42 @@ class VerPedidoActivity : AppCompatActivity() {
         val buttonFin: Button = findViewById(R.id.buttonFin)
         val imageEye: ImageView = findViewById(R.id.imageOjoN)
 
-        imageEye.visibility = View.GONE
-
-        imageEye.setOnClickListener {
-
-
-        //val buttonOjo: Button = findViewById(R.id.botonOjo)
-        //buttonOjo.setOnClickListener {
-        // mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
-        // titleTotal.setTextColor(resources.getColor(R.color.greytext, null))
-        // titleCantidad.setTextColor(resources.getColor(R.color.greytext, null))
-        // buttonFin.setBackgroundColor(resources.getColor(R.color.greytext, null))
-        imageEye.setImageResource(R.drawable.blackeye)
-        imageEye.visibility = View.GONE
+        color = intent.getStringExtra("color")
+        if (color == "ORANGE") {
+            mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
+            titleCantidad.setTextColor(resources.getColor(R.color.orange, null))
+            titleTotal.setTextColor(resources.getColor(R.color.orange, null))
+            buttonFin.setBackgroundColor(resources.getColor(R.color.orange, null))
+            imageEye.setImageResource(R.drawable.pinkeye)
+            modoEscalaGrises = false
+        }else{
+            mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
+            titleCantidad.setTextColor(resources.getColor(R.color.greytext, null))
+            titleTotal.setTextColor(resources.getColor(R.color.greytext, null))
+            buttonFin.setBackgroundColor(resources.getColor(R.color.black, null))
+            imageEye.setImageResource(R.drawable.blackeye)
+            modoEscalaGrises = true
         }
 
-        //User interface
-        // mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
-        // titleTotal.setTextColor(resources.getColor(R.color.pink, null))
-        // titleCantidad.setTextColor(resources.getColor(R.color.pink, null))
-
+        imageEye.setOnClickListener {
+            modoEscalaGrises = !modoEscalaGrises
+            if (modoEscalaGrises == true) {
+                mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
+                titleCantidad.setTextColor(resources.getColor(R.color.greytext, null))
+                titleTotal.setTextColor(resources.getColor(R.color.greytext, null))
+                buttonFin.setBackgroundColor(resources.getColor(R.color.black, null))
+                imageEye.setImageResource(R.drawable.blackeye)
+                color = "GREY"
+                Toast.makeText(this, "Se ha activado una ayuda visual", Toast.LENGTH_SHORT).show()
+            } else {
+                mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
+                titleCantidad.setTextColor(resources.getColor(R.color.orange, null))
+                titleTotal.setTextColor(resources.getColor(R.color.orange, null))
+                buttonFin.setBackgroundColor(resources.getColor(R.color.orange, null))
+                imageEye.setImageResource(R.drawable.pinkeye)
+                color = "ORANGE"
+            }
+        }
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewProductosPedido)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -76,6 +94,7 @@ class VerPedidoActivity : AppCompatActivity() {
             intent.putExtra("id_usuario", idUsuario)
             intent.putExtra("cantidad_productos", totalProductos)
             intent.putExtra("valor_total", valorTotal)
+            intent.putExtra("color", color)
             startActivity(intent)
         }
 
