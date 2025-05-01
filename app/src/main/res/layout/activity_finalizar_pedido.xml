@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/orange"
+    tools:context="com.uxdesign.ccp_frontend.FinalizarPedidoActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+
+        <ImageView
+            android:id="@+id/imageLogoPeque"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:contentDescription="@string/logo_peque_o"
+            android:src="@drawable/logoccppeque"
+            android:layout_gravity="center" />
+
+        <LinearLayout
+            android:id="@+id/finalizarContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/cuadrado_borde"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp" >
+
+            <TextView
+                android:id="@+id/tituloCliente"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="6dp"
+                android:text="Cliente"
+                android:textColor="@color/orange"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editCliente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="4dp"
+                android:paddingLeft="20dp"
+                android:background="@drawable/spinner_borde"
+                android:focusable="false"
+                android:minHeight="48dp" />
+
+            <TextView
+                android:id="@+id/tituloFechaEntrega"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="6dp"
+                android:text="FechaEntrega"
+                android:textColor="@color/orange"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editFechaEntrega"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="4dp"
+                android:paddingLeft="20dp"
+                android:background="@drawable/spinner_borde"
+                android:hint="YYYY-MM-DD"
+                android:minHeight="48dp" />
+
+            <TextView
+                android:id="@+id/tituloHora"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="6dp"
+                android:text="Hora"
+                android:textColor="@color/orange"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editHora"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="4dp"
+                android:paddingLeft="20dp"
+                android:background="@drawable/spinner_borde"
+                android:hint="HH:MM"
+                android:minHeight="48dp" />
+
+            <TextView
+                android:id="@+id/tituloNumProductos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="6dp"
+                android:text="No. Productos"
+                android:textColor="@color/orange"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editNumProductos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="4dp"
+                android:paddingLeft="20dp"
+                android:background="@drawable/spinner_borde"
+                android:hint="0"
+                android:focusable="false"
+                android:minHeight="48dp" />
+
+            <TextView
+                android:id="@+id/tituloTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="6dp"
+                android:text="Total"
+                android:textColor="@color/orange"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editTotal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="4dp"
+                android:paddingLeft="20dp"
+                android:background="@drawable/spinner_borde"
+                android:hint="0"
+                android:focusable="false"
+                android:minHeight="48dp" />
+
+            <TextView
+                android:id="@+id/tituloComentarios"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="6dp"
+                android:text="Comentarios"
+                android:textColor="@color/orange"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editComentarios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingLeft="20dp"
+                android:background="@drawable/spinner_borde"
+                android:hint="Opcional"
+                android:paddingStart="30dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:minHeight="48dp"
+                android:inputType="textMultiLine"
+                android:gravity="top|start"
+                android:scrollbars="vertical"
+                android:lines="5"
+                android:maxLines="10"
+                android:scrollHorizontally="false"/>
+
+            </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonRegistrar"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="60dp"
+            android:background="@android:color/black"
+            android:text="Terminar"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/imageOjoN"
+            android:layout_width="63dp"
+            android:layout_height="48dp"
+            android:clickable="true"
+            android:contentDescription="Cambiar color"
+            android:focusable="true"
+            app:srcCompat="@drawable/pinkeye"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="332dp"
+            tools:layout_editor_absoluteY="16dp" />
+
+    </LinearLayout>
+
+</ScrollView>

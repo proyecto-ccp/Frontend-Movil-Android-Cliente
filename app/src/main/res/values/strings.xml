@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">CPP</string>
+    <string name="iniciar">Iniciar</string>
+    <string name="crear_pedido">Crear Pedido</string>
+    <string name="logo_peque_o">Logo pequeño</string>
+    <string name="imagen_del_producto">Imagen del producto</string>
+    <string name="logo_de_ccp_peque_o">Logo de CCP pequeño</string>
+    <string name="producto">Producto</string>
+    <string name="selecciona_uno">Selecciona uno</string>
+    <string name="consultar_estado_de_pedidos">Consultar Estado de Pedidos</string>
+    <string name="consultar_entregas_programadas">Consultar Entregas Programadas</string>
+
+</resources>
