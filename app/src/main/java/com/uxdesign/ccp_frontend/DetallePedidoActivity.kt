@@ -16,7 +16,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class DetallePedidoActivity : AppCompatActivity() {
-    private val productos = mutableListOf<Producto>()
+    private val productos = mutableListOf<ProductoCarrito>()
     private lateinit var apiService: ApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,10 +28,10 @@ class DetallePedidoActivity : AppCompatActivity() {
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewProductosPedido)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = ProductoAdapter(productos)
+        recyclerView.adapter = ProductoPedidoAdapter(productos)
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://pedidos")
+            .baseUrl("https://servicio-pedidos-596275467600.us-central1.run.app/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -49,6 +49,30 @@ class DetallePedidoActivity : AppCompatActivity() {
     }
 
     private fun getProductosPorPedido(pedidoId: String) {
+        if (pedidoId.isNullOrEmpty()) {
+            Toast.makeText(this, "ID de pedido no disponible", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        apiService.getDetallePedido(pedidoId).enqueue(object : Callback<RespuestaDetalleCarrito> {
+            override fun onResponse(call: Call<RespuestaDetalleCarrito>, response: Response<RespuestaDetalleCarrito>) {
+                if (response.isSuccessful) {
+                    val detalleList = response.body()?.detallePedidos
+                    if (detalleList != null) {
+                        productos.clear()
+                        productos.addAll(detalleList)
+                        (findViewById<RecyclerView>(R.id.recyclerViewProductosPedido).adapter as ProductoPedidoAdapter).notifyDataSetChanged()
+                    }
+                } else {
+                    Toast.makeText(this@DetallePedidoActivity, "Error al cargar los productos de pedidos", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<RespuestaDetalleCarrito>, t: Throwable) {
+                t.printStackTrace()
+                Toast.makeText(this@DetallePedidoActivity, "Error de conexión de detalle pedido", Toast.LENGTH_SHORT).show()
+            }
+        })
 
     }
 }

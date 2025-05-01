@@ -31,9 +31,6 @@ interface ApiService {
     @GET("Atributos/Localizacion/Ciudad/{IdCiudad}/Zonas")
     fun getZonasPorCiudad(@Path("IdCiudad") idCiudad: String): Call<RespuestaZona>
 
-    @GET("Cliente/ObtenerClientesPorZona/{zonaId}")
-    fun getClientesPorZona(@Path("zonaId") zonaId: String): Call<RespuestaCliente>
-
     @GET("Pedido/ObtenerPedidosPorCliente/{clienteId}/{estado}")
     fun getPedidosPorCliente(@Path("clienteId") clienteId: String, @Path("estado") estado: String
     ): Call<RespuestaPedidoProcesado>
@@ -50,6 +47,9 @@ interface ApiService {
 
     @GET("DetallePedido/ObtenerDetallesUsuario/{id}")
     fun getDetallePedidoUsuario(@Path("id") clienteId: String): Call<RespuestaDetalleCarrito>
+
+    @GET("DetallePedido/ObtenerDetalles/{id}")
+    fun getDetallePedido(@Path("id") pedidoId: String): Call<RespuestaDetalleCarrito>
 
     @GET("Vendedor/{idVendedor}")
     fun getVendedor(@Path("idVendedor") vendedorId: String): Call<RespuestaVendedor>
