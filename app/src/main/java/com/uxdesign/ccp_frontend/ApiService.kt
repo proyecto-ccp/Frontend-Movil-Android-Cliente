@@ -25,6 +25,9 @@ interface ApiService {
     @GET("Productos/Consultar")
     fun getProductos(): Call<RespuestaProducto>
 
+    @GET("Productos/ConsultarPorId")
+    fun getProductoId(): Call<RespuestaProducto>
+
     @GET("atributos/Localizacion/Ciudades")
     fun getCiudades(): Call<RespuestaCiudad>
 
@@ -34,10 +37,6 @@ interface ApiService {
     @GET("Pedido/ObtenerPedidosPorCliente/{clienteId}/{estado}")
     fun getPedidosPorCliente(@Path("clienteId") clienteId: String, @Path("estado") estado: String
     ): Call<RespuestaPedidoProcesado>
-
-    @GET("Pedido/ObtenerPedidosPorVendedor/{vendedorId}/{estado}")
-    fun getPedidosPorVendedor(@Path("vendedorId") vendedorId: String, @Path("estado") estado: String
-    ): Call<RespuestaPedido>
 
     @POST("DetallePedido/AgregarDetalle")
     fun agregarDetallePedido(@Body detalle: ProductoCarrito): Call<Void>
@@ -51,10 +50,7 @@ interface ApiService {
     @GET("DetallePedido/ObtenerDetalles/{id}")
     fun getDetallePedido(@Path("id") pedidoId: String): Call<RespuestaDetalleCarrito>
 
-    @GET("Vendedor/{idVendedor}")
-    fun getVendedor(@Path("idVendedor") vendedorId: String): Call<RespuestaVendedor>
-
-    @POST("Pedido/CrearPedido")
+   @POST("Pedido/CrearPedido")
     fun crearPedido(@Body request: Pedido): Call<RespuestaRequestPedido>
 
     @PUT("DetallePedido/ActualizarDetalles/{idUsuario}/{idPedido}")

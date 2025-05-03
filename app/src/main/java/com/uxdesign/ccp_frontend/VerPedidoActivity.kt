@@ -49,14 +49,12 @@ class VerPedidoActivity : AppCompatActivity() {
             mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
             titleCantidad.setTextColor(resources.getColor(R.color.orange, null))
             titleTotal.setTextColor(resources.getColor(R.color.orange, null))
-            buttonFin.setBackgroundColor(resources.getColor(R.color.orange, null))
             imageEye.setImageResource(R.drawable.pinkeye)
             modoEscalaGrises = false
         }else{
             mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
             titleCantidad.setTextColor(resources.getColor(R.color.greytext, null))
             titleTotal.setTextColor(resources.getColor(R.color.greytext, null))
-            buttonFin.setBackgroundColor(resources.getColor(R.color.black, null))
             imageEye.setImageResource(R.drawable.blackeye)
             modoEscalaGrises = true
         }

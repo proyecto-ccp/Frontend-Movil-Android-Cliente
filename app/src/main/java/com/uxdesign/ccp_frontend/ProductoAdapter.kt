@@ -1,6 +1,7 @@
 package com.uxdesign.ccp_frontend
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,7 @@ class ProductoAdapter(private val productos: List<Producto>, private val color: 
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, DetalleProductoActivity::class.java).apply {
+                Log.d("ProductoAdapter", "Color adapter: $color")
                 putExtra("producto_id", producto.id)
                 putExtra("producto_nombre", producto.nombre)
                 putExtra("producto_precio", producto.precioUnitario)

@@ -2,6 +2,7 @@ package com.uxdesign.ccp_frontend
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -36,10 +37,11 @@ class CatalogoProductosActivity : AppCompatActivity() {
         val buttonFinalizar: Button = findViewById(R.id.botonFinalizar)
         val buttonPedido: Button = findViewById(R.id.botonPedido)
         val imageEye: ImageView = findViewById(R.id.imageOjoN)
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerViewProductos)
 
         imageEye.setOnClickListener {
             modoEscalaGrises = !modoEscalaGrises
-            if (modoEscalaGrises == true) {
+            if (modoEscalaGrises) {
                 mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
                 buttonFinalizar.setBackgroundColor(resources.getColor(R.color.greytext, null))
                 buttonPedido.setBackgroundColor(resources.getColor(R.color.greytext, null))
@@ -53,6 +55,8 @@ class CatalogoProductosActivity : AppCompatActivity() {
                 imageEye.setImageResource(R.drawable.pinkeye)
                 color = "ORANGE"
             }
+            val adapter = ProductoAdapter(productos, color)
+            recyclerView.adapter = adapter
         }
 
         val idUsuario = "b07e8ab8-b787-4f6d-8a85-6c506a3616f5"
@@ -72,8 +76,7 @@ class CatalogoProductosActivity : AppCompatActivity() {
              startActivity(intent)
         }
 
-        val recyclerView: RecyclerView = findViewById(R.id.recyclerViewProductos)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val adapter = ProductoAdapter(productos, color)
         recyclerView.adapter = adapter
@@ -102,8 +105,9 @@ class CatalogoProductosActivity : AppCompatActivity() {
                     if (productoList != null) {
                         productos.clear()
                         productos.addAll(productoList)
-                        // Notificar al adaptador que los datos han cambiado
-                        (findViewById<RecyclerView>(R.id.recyclerViewProductos).adapter as ProductoAdapter).notifyDataSetChanged()
+                        val adapter = ProductoAdapter(productos, color)
+                        findViewById<RecyclerView>(R.id.recyclerViewProductos).adapter = adapter
+                        adapter.notifyDataSetChanged()
                     }
                 } else {
                     Toast.makeText(this@CatalogoProductosActivity, "Error al cargar el catálogo", Toast.LENGTH_SHORT).show()

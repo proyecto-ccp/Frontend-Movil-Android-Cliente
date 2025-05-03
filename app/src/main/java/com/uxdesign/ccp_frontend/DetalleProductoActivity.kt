@@ -2,6 +2,7 @@ package com.uxdesign.ccp_frontend
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -47,18 +48,17 @@ class DetalleProductoActivity : AppCompatActivity() {
         val imageEye: ImageView = findViewById(R.id.imageOjoN)
 
         color = intent.getStringExtra("color")
+        Log.d("DetalleProductoActivity", "Color recibido: $color")
         if (color == "ORANGE") {
             mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
             titleCanti.setTextColor(resources.getColor(R.color.orange, null))
             titleValue.setTextColor(resources.getColor(R.color.orange, null))
-            agregarButton.setBackgroundColor(resources.getColor(R.color.orange, null))
             imageEye.setImageResource(R.drawable.pinkeye)
             modoEscalaGrises = false
         }else{
             mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
             titleCanti.setTextColor(resources.getColor(R.color.greytext, null))
             titleValue.setTextColor(resources.getColor(R.color.greytext, null))
-            agregarButton.setBackgroundColor(resources.getColor(R.color.black, null))
             imageEye.setImageResource(R.drawable.blackeye)
             modoEscalaGrises = true
         }
