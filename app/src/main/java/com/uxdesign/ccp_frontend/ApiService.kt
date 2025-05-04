@@ -25,8 +25,8 @@ interface ApiService {
     @GET("Productos/Consultar")
     fun getProductos(): Call<RespuestaProducto>
 
-    @GET("Productos/ConsultarPorId")
-    fun getProductoId(): Call<RespuestaProducto>
+    @GET("Clientes/ConsultarPorId")
+    fun getClienteId(@Path("IdUsuario") idUsuario: String): Call<RespuestaCliente>
 
     @GET("atributos/Localizacion/Ciudades")
     fun getCiudades(): Call<RespuestaCiudad>

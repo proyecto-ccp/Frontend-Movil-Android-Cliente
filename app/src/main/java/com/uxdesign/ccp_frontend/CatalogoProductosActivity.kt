@@ -26,6 +26,7 @@ class CatalogoProductosActivity : AppCompatActivity() {
     private lateinit var apiService: ApiService
     private var modoEscalaGrises = false
     private var color = "ORANGE"
+    private var idUsuario = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -38,6 +39,8 @@ class CatalogoProductosActivity : AppCompatActivity() {
         val buttonPedido: Button = findViewById(R.id.botonPedido)
         val imageEye: ImageView = findViewById(R.id.imageOjoN)
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewProductos)
+
+        idUsuario = "d7be0dc4-b41a-4719-83ee-84f11e68b622"
 
         imageEye.setOnClickListener {
             modoEscalaGrises = !modoEscalaGrises
@@ -55,11 +58,9 @@ class CatalogoProductosActivity : AppCompatActivity() {
                 imageEye.setImageResource(R.drawable.pinkeye)
                 color = "ORANGE"
             }
-            val adapter = ProductoAdapter(productos, color)
+            val adapter = ProductoAdapter(productos, color, idUsuario)
             recyclerView.adapter = adapter
         }
-
-        val idUsuario = "b07e8ab8-b787-4f6d-8a85-6c506a3616f5"
 
         buttonPedido.setOnClickListener {
             val intent = Intent(this, VerPedidoActivity::class.java)
@@ -78,7 +79,7 @@ class CatalogoProductosActivity : AppCompatActivity() {
 
          recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val adapter = ProductoAdapter(productos, color)
+        val adapter = ProductoAdapter(productos, idUsuario, color)
         recyclerView.adapter = adapter
 
         val retrofit = Retrofit.Builder()
@@ -105,7 +106,7 @@ class CatalogoProductosActivity : AppCompatActivity() {
                     if (productoList != null) {
                         productos.clear()
                         productos.addAll(productoList)
-                        val adapter = ProductoAdapter(productos, color)
+                        val adapter = ProductoAdapter(productos, color, idUsuario)
                         findViewById<RecyclerView>(R.id.recyclerViewProductos).adapter = adapter
                         adapter.notifyDataSetChanged()
                     }

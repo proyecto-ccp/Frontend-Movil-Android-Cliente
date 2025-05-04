@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.uxdesign.cpp.R
 
-class ProductoAdapter(private val productos: List<Producto>, private val color: String) : RecyclerView.Adapter<ProductoAdapter.ProductoViewHolder>() {
+class ProductoAdapter(private val productos: List<Producto>, private val color: String, private val idUsuario: String) : RecyclerView.Adapter<ProductoAdapter.ProductoViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductoViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_producto, parent, false)
@@ -25,8 +25,8 @@ class ProductoAdapter(private val productos: List<Producto>, private val color: 
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, DetalleProductoActivity::class.java).apply {
-                Log.d("ProductoAdapter", "Color adapter: $color")
-                putExtra("producto_id", producto.id)
+
+                putExtra("id_usuario", idUsuario)
                 putExtra("producto_nombre", producto.nombre)
                 putExtra("producto_precio", producto.precioUnitario)
                 putExtra("producto_descripcion", producto.descripcion)

@@ -48,7 +48,6 @@ class DetalleProductoActivity : AppCompatActivity() {
         val imageEye: ImageView = findViewById(R.id.imageOjoN)
 
         color = intent.getStringExtra("color")
-        Log.d("DetalleProductoActivity", "Color recibido: $color")
         if (color == "ORANGE") {
             mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
             titleCanti.setTextColor(resources.getColor(R.color.orange, null))
@@ -84,6 +83,7 @@ class DetalleProductoActivity : AppCompatActivity() {
             }
         }
 
+        val idUsuario = intent.getStringExtra("id_usuario") ?: " "
         val productoId = intent.getIntExtra("producto_id", -1)
         val productoNombre = intent.getStringExtra("producto_nombre")
         productoPrecio = intent.getDoubleExtra("producto_precio", 0.0)
@@ -130,7 +130,6 @@ class DetalleProductoActivity : AppCompatActivity() {
             }
 
             val cantidad = cantidadText.toInt()
-            val idUsuario = "b07e8ab8-b787-4f6d-8a85-6c506a3616f5"
 
             if (cantidad > stockDisponible) {
                 Toast.makeText(this, "La cantidad ingresada excede el stock disponible ($stockDisponible)", Toast.LENGTH_SHORT).show()

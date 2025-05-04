@@ -31,7 +31,7 @@ class ProductoPedidoAdapter(private val productos: List<ProductoCarrito>) : Recy
         private val valorProducto: TextView = itemView.findViewById(R.id.valorProducto)
 
         fun bind(producto: ProductoCarrito) {
-            nombreProducto.text = producto.idProducto.toString()
+            nombreProducto.text = producto.nombre
             precioProducto.text = "Valor Unitario: $${producto.precioUnitario}"
             cantidadProducto.text = "Cantidad: $${producto.cantidad}"
             valorProducto.text = "Valor Total: $${(producto.precioUnitario*producto.cantidad)}"

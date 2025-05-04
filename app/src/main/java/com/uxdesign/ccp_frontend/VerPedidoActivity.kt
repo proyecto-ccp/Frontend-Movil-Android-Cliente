@@ -30,12 +30,13 @@ class VerPedidoActivity : AppCompatActivity() {
     private var valorTotal: Double = 0.0
     private var modoEscalaGrises = false
     private var color: String? = "ORANGE"
+    private var idUsuario: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_ver_pedido)
-        val idUsuario = intent.getStringExtra("id_usuario")
+        idUsuario = intent.getStringExtra("id_usuario")
 
         //Adaptabilidad
         val mainLayout: ConstraintLayout = findViewById(R.id.main)

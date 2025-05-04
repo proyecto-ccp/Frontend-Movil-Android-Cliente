@@ -27,7 +27,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.text.ParseException
 
 class FinalizarPedidoActivity : AppCompatActivity() {
-    private lateinit var editCliente: Spinner
+    private lateinit var cliente: Cliente
+    private lateinit var editCliente: EditText
     private lateinit var editFecha: EditText
     private lateinit var editHora: EditText
     private lateinit var editNumProductos: EditText
@@ -53,6 +54,7 @@ class FinalizarPedidoActivity : AppCompatActivity() {
         editTotal = findViewById(R.id.editTotal)
         editComentarios = findViewById(R.id.editComentarios)
 
+        editCliente.setText(idUsuario)
         editNumProductos.setText(cantidadProd.toString())
         editTotal.setText("$${String.format("%.2f", valorTotal)}")
 
@@ -122,7 +124,7 @@ class FinalizarPedidoActivity : AppCompatActivity() {
 
         //--------------------------------------
 
-        //Cargar nombre de cliente
+        //cargarClienteDesdeApi(idUsuario)
 
         buttonRegistrar.setOnClickListener {
 
@@ -156,8 +158,48 @@ class FinalizarPedidoActivity : AppCompatActivity() {
         }
     }
 
+    private fun cargarClienteDesdeApi(idUsuario: String?) {
+        if (idUsuario == null) {
+            Toast.makeText(this, "ID del producto no disponible", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://inventarios-596275467600.us-central1.run.app/api/") // Cambia por tu URL real
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val apiService = retrofit.create(ApiService::class.java)
+        apiService.getClienteId(idUsuario).enqueue(object : Callback<RespuestaCliente> {
+            override fun onResponse(call: Call<RespuestaCliente>, response: Response<RespuestaCliente>) {
+                if (response.isSuccessful) {
+                    val clienter = response.body()?.clientes
+                    //cliente = clienter.get(1)
+                    findViewById<TextView>(R.id.editCliente).text = cliente.nombre
+
+                    if (cliente == null) {
+                        findViewById<Button>(R.id.buttonAgregar).isEnabled = false
+                        findViewById<Button>(R.id.buttonAgregar).alpha = 0.5f
+                    }
+
+                } else {
+                    findViewById<TextView>(R.id.textStock).text = "Stock: 0 unidades, producto no disponible"
+                    findViewById<Button>(R.id.buttonAgregar).isEnabled = false
+                    findViewById<Button>(R.id.buttonAgregar).alpha = 0.5f
+                    findViewById<EditText>(R.id.editCantidad).isEnabled = false
+                    //Toast.makeText(this@DetalleProductoActivity, "Error al cargar stock", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<RespuestaCliente>, t: Throwable) {
+                findViewById<Button>(R.id.buttonRegistrar).isEnabled = false
+                findViewById<Button>(R.id.buttonRegistrar).alpha = 0.5f
+                Toast.makeText(this@FinalizarPedidoActivity, "Error de conexión con cliente", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
     private fun validarCampos(): Boolean {
-        if (editCliente.isEmpty() ) {
+        if (editCliente.toString().isEmpty() ) {
             showToast("No fue posible carga tu id como cliente")
             return false
         }
