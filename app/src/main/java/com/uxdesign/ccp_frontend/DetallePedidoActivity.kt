@@ -16,7 +16,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class DetallePedidoActivity : AppCompatActivity() {
-    private val productos = mutableListOf<ProductoCarrito>()
+    private val productos = mutableListOf<ProductoCarritoDetalle>()
     private lateinit var apiService: ApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +28,7 @@ class DetallePedidoActivity : AppCompatActivity() {
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewProductosPedido)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = ProductoPedidoAdapter(productos)
+        recyclerView.adapter = ProductoPedidoDetalleAdapter(productos)
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://servicio-pedidos-596275467600.us-central1.run.app/api/")
@@ -54,21 +54,21 @@ class DetallePedidoActivity : AppCompatActivity() {
             return
         }
 
-        apiService.getDetallePedido(pedidoId).enqueue(object : Callback<RespuestaDetalleCarrito> {
-            override fun onResponse(call: Call<RespuestaDetalleCarrito>, response: Response<RespuestaDetalleCarrito>) {
+        apiService.getDetallePedido(pedidoId).enqueue(object : Callback<RespuestaDetallePedido> {
+            override fun onResponse(call: Call<RespuestaDetallePedido>, response: Response<RespuestaDetallePedido>) {
                 if (response.isSuccessful) {
                     val detalleList = response.body()?.detallePedidos
                     if (detalleList != null) {
                         productos.clear()
                         productos.addAll(detalleList)
-                        (findViewById<RecyclerView>(R.id.recyclerViewProductosPedido).adapter as ProductoPedidoAdapter).notifyDataSetChanged()
+                        (findViewById<RecyclerView>(R.id.recyclerViewProductosPedido).adapter as ProductoPedidoDetalleAdapter).notifyDataSetChanged()
                     }
                 } else {
                     Toast.makeText(this@DetallePedidoActivity, "Error al cargar los productos de pedidos", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onFailure(call: Call<RespuestaDetalleCarrito>, t: Throwable) {
+            override fun onFailure(call: Call<RespuestaDetallePedido>, t: Throwable) {
                 t.printStackTrace()
                 Toast.makeText(this@DetallePedidoActivity, "Error de conexión de detalle pedido", Toast.LENGTH_SHORT).show()
             }

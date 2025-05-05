@@ -4,6 +4,5 @@ data class ProductoCarrito(
     val idProducto: Int,
     val cantidad: Int,
     val idUsuario: String,
-    val nombre: String,
     val precioUnitario: Double
 )

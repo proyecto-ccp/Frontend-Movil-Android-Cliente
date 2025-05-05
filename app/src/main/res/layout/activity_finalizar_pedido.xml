@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,6 +16,17 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <ImageView
+            android:id="@+id/imageOjoN"
+            android:layout_width="63dp"
+            android:layout_height="48dp"
+            android:clickable="true"
+            android:contentDescription="Cambiar color"
+            android:focusable="true"
+            app:srcCompat="@drawable/pinkeye"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="332dp"
+            tools:layout_editor_absoluteY="16dp" />
 
         <ImageView
             android:id="@+id/imageLogoPeque"
@@ -58,6 +70,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="4dp"
                 android:paddingLeft="20dp"
+                android:hint="Mi id como cliente"
                 android:background="@drawable/spinner_borde"
                 android:focusable="false"
                 android:minHeight="48dp" />
@@ -197,18 +210,6 @@
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
-
-        <ImageView
-            android:id="@+id/imageOjoN"
-            android:layout_width="63dp"
-            android:layout_height="48dp"
-            android:clickable="true"
-            android:contentDescription="Cambiar color"
-            android:focusable="true"
-            app:srcCompat="@drawable/pinkeye"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="332dp"
-            tools:layout_editor_absoluteY="16dp" />
 
     </LinearLayout>
 

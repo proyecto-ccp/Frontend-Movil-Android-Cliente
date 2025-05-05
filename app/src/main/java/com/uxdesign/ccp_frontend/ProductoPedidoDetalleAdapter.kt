@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uxdesign.cpp.R
 
-class ProductoPedidoAdapter(private val productos: List<ProductoCarrito>) : RecyclerView.Adapter<ProductoPedidoAdapter.ProductoPedidoViewHolder>() {
+class ProductoPedidoDetalleAdapter(private val productos: List<ProductoCarritoDetalle>) : RecyclerView.Adapter<ProductoPedidoDetalleAdapter.ProductoPedidoViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductoPedidoViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_pedido, parent, false)
@@ -30,8 +30,8 @@ class ProductoPedidoAdapter(private val productos: List<ProductoCarrito>) : Recy
         private val cantidadProducto: TextView = itemView.findViewById(R.id.cantidadProducto)
         private val valorProducto: TextView = itemView.findViewById(R.id.valorProducto)
 
-        fun bind(producto: ProductoCarrito) {
-            nombreProducto.text = producto.cantidad.toString()
+        fun bind(producto: ProductoCarritoDetalle) {
+            nombreProducto.text = producto.nombreProducto
             precioProducto.text = "Valor Unitario: $${producto.precioUnitario}"
             cantidadProducto.text = "Cantidad: $${producto.cantidad}"
             valorProducto.text = "Valor Total: $${(producto.precioUnitario*producto.cantidad)}"

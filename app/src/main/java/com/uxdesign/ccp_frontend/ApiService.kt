@@ -48,7 +48,7 @@ interface ApiService {
     fun getDetallePedidoUsuario(@Path("id") clienteId: String): Call<RespuestaDetalleCarrito>
 
     @GET("DetallePedido/ObtenerDetalles/{id}")
-    fun getDetallePedido(@Path("id") pedidoId: String): Call<RespuestaDetalleCarrito>
+    fun getDetallePedido(@Path("id") pedidoId: String): Call<RespuestaDetallePedido>
 
    @POST("Pedido/CrearPedido")
     fun crearPedido(@Body request: Pedido): Call<RespuestaRequestPedido>

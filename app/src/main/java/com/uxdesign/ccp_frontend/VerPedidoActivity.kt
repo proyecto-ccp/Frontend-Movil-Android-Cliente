@@ -50,12 +50,14 @@ class VerPedidoActivity : AppCompatActivity() {
             mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
             titleCantidad.setTextColor(resources.getColor(R.color.orange, null))
             titleTotal.setTextColor(resources.getColor(R.color.orange, null))
+            buttonFin.setBackgroundColor(resources.getColor(R.color.black, null))
             imageEye.setImageResource(R.drawable.pinkeye)
             modoEscalaGrises = false
         }else{
             mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
             titleCantidad.setTextColor(resources.getColor(R.color.greytext, null))
             titleTotal.setTextColor(resources.getColor(R.color.greytext, null))
+            buttonFin.setBackgroundColor(resources.getColor(R.color.greytext, null))
             imageEye.setImageResource(R.drawable.blackeye)
             modoEscalaGrises = true
         }
@@ -66,7 +68,7 @@ class VerPedidoActivity : AppCompatActivity() {
                 mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
                 titleCantidad.setTextColor(resources.getColor(R.color.greytext, null))
                 titleTotal.setTextColor(resources.getColor(R.color.greytext, null))
-                buttonFin.setBackgroundColor(resources.getColor(R.color.black, null))
+                buttonFin.setBackgroundColor(resources.getColor(R.color.greytext, null))
                 imageEye.setImageResource(R.drawable.blackeye)
                 color = "GREY"
                 Toast.makeText(this, "Se ha activado una ayuda visual", Toast.LENGTH_SHORT).show()
@@ -74,7 +76,7 @@ class VerPedidoActivity : AppCompatActivity() {
                 mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
                 titleCantidad.setTextColor(resources.getColor(R.color.orange, null))
                 titleTotal.setTextColor(resources.getColor(R.color.orange, null))
-                buttonFin.setBackgroundColor(resources.getColor(R.color.orange, null))
+                buttonFin.setBackgroundColor(resources.getColor(R.color.black, null))
                 imageEye.setImageResource(R.drawable.pinkeye)
                 color = "ORANGE"
             }
@@ -136,8 +138,9 @@ class VerPedidoActivity : AppCompatActivity() {
                         (findViewById<RecyclerView>(R.id.recyclerViewProductosPedido).adapter as ProductoPedidoAdapter).notifyDataSetChanged()
                     }
                 } else {
-                    Toast.makeText(this@VerPedidoActivity, "Error al cargar detalle de pedido", Toast.LENGTH_SHORT).show()
-                }
+                    Toast.makeText(this@VerPedidoActivity, "No tienes productos en el carrito", Toast.LENGTH_SHORT).show()
+                    val buttonFin: Button = findViewById(R.id.buttonFin)
+                    buttonFin.isEnabled = false}
             }
 
             override fun onFailure(call: Call<RespuestaDetalleCarrito>, t: Throwable) {

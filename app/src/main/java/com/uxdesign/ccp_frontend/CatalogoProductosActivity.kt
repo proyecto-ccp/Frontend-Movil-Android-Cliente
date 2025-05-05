@@ -35,7 +35,6 @@ class CatalogoProductosActivity : AppCompatActivity() {
         //Adaptabilidad
 
         val mainLayout: ConstraintLayout = findViewById(R.id.main)
-        val buttonFinalizar: Button = findViewById(R.id.botonFinalizar)
         val buttonPedido: Button = findViewById(R.id.botonPedido)
         val imageEye: ImageView = findViewById(R.id.imageOjoN)
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewProductos)
@@ -46,14 +45,12 @@ class CatalogoProductosActivity : AppCompatActivity() {
             modoEscalaGrises = !modoEscalaGrises
             if (modoEscalaGrises) {
                 mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
-                buttonFinalizar.setBackgroundColor(resources.getColor(R.color.greytext, null))
                 buttonPedido.setBackgroundColor(resources.getColor(R.color.greytext, null))
                 imageEye.setImageResource(R.drawable.blackeye)
                 color = "GREY"
                 Toast.makeText(this, "Se ha activado una ayuda visual", Toast.LENGTH_SHORT).show()
             } else {
                 mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
-                buttonFinalizar.setBackgroundColor(resources.getColor(R.color.black, null))
                 buttonPedido.setBackgroundColor(resources.getColor(R.color.black, null))
                 imageEye.setImageResource(R.drawable.pinkeye)
                 color = "ORANGE"
@@ -67,14 +64,6 @@ class CatalogoProductosActivity : AppCompatActivity() {
             intent.putExtra("id_usuario", idUsuario)
             intent.putExtra("color", color )
             startActivity(intent)
-        }
-
-        buttonFinalizar.isEnabled = false
-        buttonFinalizar.setOnClickListener {
-             val intent = Intent(this, FinalizarPedidoActivity::class.java)
-             intent.putExtra("id_usuario", idUsuario)
-             intent.putExtra("color", color )
-             startActivity(intent)
         }
 
          recyclerView.layoutManager = LinearLayoutManager(this)

@@ -39,7 +39,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Botón 1 -->
         <Button
             android:id="@+id/botonPedido"
             android:layout_width="0dp"
@@ -48,18 +47,6 @@
             android:layout_weight="1"
             android:background="@android:color/black"
             android:text="Ver Productos Pedidos"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white" />
-
-        <!-- Botón 2 -->
-        <Button
-            android:id="@+id/botonFinalizar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:background="@android:color/black"
-            android:text="Finalizar Pedido"
             android:textAllCaps="false"
             android:textColor="@android:color/white" />
 

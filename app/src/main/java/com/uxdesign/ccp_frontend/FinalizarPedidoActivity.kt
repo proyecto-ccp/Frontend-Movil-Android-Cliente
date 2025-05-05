@@ -78,7 +78,7 @@ class FinalizarPedidoActivity : AppCompatActivity() {
             titleCantidad.setTextColor(resources.getColor(R.color.orange, null))
             titleTotal.setTextColor(resources.getColor(R.color.orange, null))
             titleComentarios.setTextColor(resources.getColor(R.color.orange, null))
-            buttonRegistrar.setBackgroundColor(resources.getColor(R.color.orange, null))
+            buttonRegistrar.setBackgroundColor(resources.getColor(R.color.black, null))
             imageEye.setImageResource(R.drawable.pinkeye)
             modoEscalaGrises = false
         }else{
@@ -89,7 +89,7 @@ class FinalizarPedidoActivity : AppCompatActivity() {
             titleCantidad.setTextColor(resources.getColor(R.color.darkgrey, null))
             titleTotal.setTextColor(resources.getColor(R.color.darkgrey, null))
             titleComentarios.setTextColor(resources.getColor(R.color.darkgrey, null))
-            buttonRegistrar.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
+            buttonRegistrar.setBackgroundColor(resources.getColor(R.color.greytext, null))
             imageEye.setImageResource(R.drawable.blackeye)
             modoEscalaGrises = true
         }
@@ -104,19 +104,19 @@ class FinalizarPedidoActivity : AppCompatActivity() {
                 titleCantidad.setTextColor(resources.getColor(R.color.darkgrey, null))
                 titleTotal.setTextColor(resources.getColor(R.color.darkgrey, null))
                 titleComentarios.setTextColor(resources.getColor(R.color.darkgrey, null))
-                buttonRegistrar.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
+                buttonRegistrar.setBackgroundColor(resources.getColor(R.color.greytext, null))
                 imageEye.setImageResource(R.drawable.blackeye)
                 color = "GREY"
                 Toast.makeText(this, "Se ha activado una ayuda visual", Toast.LENGTH_SHORT).show()
             } else {
                 mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
-                titleCliente.setTextColor(resources.getColor(R.color.darkgrey, null))
-                titleDate.setTextColor(resources.getColor(R.color.darkgrey, null))
-                titleHora.setTextColor(resources.getColor(R.color.darkgrey, null))
-                titleCantidad.setTextColor(resources.getColor(R.color.darkgrey, null))
-                titleTotal.setTextColor(resources.getColor(R.color.darkgrey, null))
-                titleComentarios.setTextColor(resources.getColor(R.color.darkgrey, null))
-                buttonRegistrar.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
+                titleCliente.setTextColor(resources.getColor(R.color.orange, null))
+                titleDate.setTextColor(resources.getColor(R.color.orange, null))
+                titleHora.setTextColor(resources.getColor(R.color.orange, null))
+                titleCantidad.setTextColor(resources.getColor(R.color.orange, null))
+                titleTotal.setTextColor(resources.getColor(R.color.orange, null))
+                titleComentarios.setTextColor(resources.getColor(R.color.orange, null))
+                buttonRegistrar.setBackgroundColor(resources.getColor(R.color.black, null))
                 imageEye.setImageResource(R.drawable.pinkeye)
                 color = "ORANGE"
             }

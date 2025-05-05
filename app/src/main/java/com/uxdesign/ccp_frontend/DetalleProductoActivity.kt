@@ -52,12 +52,14 @@ class DetalleProductoActivity : AppCompatActivity() {
             mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
             titleCanti.setTextColor(resources.getColor(R.color.orange, null))
             titleValue.setTextColor(resources.getColor(R.color.orange, null))
+            agregarButton.setBackgroundColor(resources.getColor(R.color.black, null))
             imageEye.setImageResource(R.drawable.pinkeye)
             modoEscalaGrises = false
         }else{
             mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
             titleCanti.setTextColor(resources.getColor(R.color.greytext, null))
             titleValue.setTextColor(resources.getColor(R.color.greytext, null))
+            agregarButton.setBackgroundColor(resources.getColor(R.color.greytext, null))
             imageEye.setImageResource(R.drawable.blackeye)
             modoEscalaGrises = true
         }
@@ -69,7 +71,7 @@ class DetalleProductoActivity : AppCompatActivity() {
                 mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
                 titleCanti.setTextColor(resources.getColor(R.color.greytext, null))
                 titleValue.setTextColor(resources.getColor(R.color.greytext, null))
-                agregarButton.setBackgroundColor(resources.getColor(R.color.black, null))
+                agregarButton.setBackgroundColor(resources.getColor(R.color.greytext, null))
                 imageEye.setImageResource(R.drawable.blackeye)
                 color = "GREY"
                 Toast.makeText(this, "Se ha activado una ayuda visual", Toast.LENGTH_SHORT).show()
@@ -77,7 +79,7 @@ class DetalleProductoActivity : AppCompatActivity() {
                 mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
                 titleCanti.setTextColor(resources.getColor(R.color.orange, null))
                 titleValue.setTextColor(resources.getColor(R.color.orange, null))
-                agregarButton.setBackgroundColor(resources.getColor(R.color.orange, null))
+                agregarButton.setBackgroundColor(resources.getColor(R.color.black, null))
                 imageEye.setImageResource(R.drawable.pinkeye)
                 color = "ORANGE"
             }
