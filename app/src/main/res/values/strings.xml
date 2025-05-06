@@ -9,5 +9,6 @@
     <string name="selecciona_uno">Selecciona uno</string>
     <string name="consultar_estado_de_pedidos">Consultar Estado de Pedidos</string>
     <string name="consultar_entregas_programadas">Consultar Entregas Programadas</string>
+    <string name="cerrar_sesi_n">Cerrar Sesión</string>
 
 </resources>
