@@ -98,15 +98,14 @@ class DetalleProductoActivity : AppCompatActivity() {
         val descripcionProducto: TextView = findViewById(R.id.textDescripcionProducto)
         val stockProducto: TextView = findViewById(R.id.textStock)
 
-        // Establecer los datos recibidos
         nombreProducto.text = productoNombre
         precioProducto.text = "$${productoPrecio}"
         descripcionProducto.text = productoDescripcion
 
         Glide.with(this)
-            .load(productoImagen) // URL de la imagen
-            .placeholder(R.drawable.errorphotopeque) // opcional
-            .error(R.drawable.errorphotopeque) // opcional
+            .load(productoImagen)
+            .placeholder(R.drawable.errorphotopeque)
+            .error(R.drawable.errorphotopeque)
             .into(imageProducto)
 
         cargarStockDesdeApi(productoId)
@@ -187,7 +186,7 @@ class DetalleProductoActivity : AppCompatActivity() {
             return
         }
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://inventarios-596275467600.us-central1.run.app/api/") // Cambia por tu URL real
+            .baseUrl("https://inventarios-596275467600.us-central1.run.app/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

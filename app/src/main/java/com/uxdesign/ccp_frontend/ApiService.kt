@@ -25,9 +25,6 @@ interface ApiService {
     @GET("Productos/Consultar")
     fun getProductos(): Call<RespuestaProducto>
 
-    @GET("Clientes/ConsultarPorId")
-    fun getClienteId(@Path("IdUsuario") idUsuario: String): Call<RespuestaCliente>
-
     @GET("atributos/Localizacion/Ciudades")
     fun getCiudades(): Call<RespuestaCiudad>
 
@@ -56,4 +53,7 @@ interface ApiService {
     @PUT("DetallePedido/ActualizarDetalles/{idUsuario}/{idPedido}")
     fun enlazarDetallePedido(@Path("idUsuario") idUsuario: String,
         @Path("idPedido") idPedido: String): Call<RespuestaRequestPedido>
+
+    @GET("Cliente/ObtenerCliente/{id}")
+    fun getClienteId(@Path("id") clienteId: String): Call<SingleCliente>
 }

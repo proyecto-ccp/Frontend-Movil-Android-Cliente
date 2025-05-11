@@ -5,7 +5,7 @@ data class Pedido(
     val fechaEntrega: String,
     val estadoPedido: String,
     val valorTotal: Double,
-    val idVendedor: String,
+    val idVendedor: String?,
     val comentarios: String,
     val idMoneda: Int
 )

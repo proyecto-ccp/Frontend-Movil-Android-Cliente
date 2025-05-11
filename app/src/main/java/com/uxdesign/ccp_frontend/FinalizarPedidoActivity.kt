@@ -1,5 +1,6 @@
 package com.uxdesign.ccp_frontend
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import java.text.SimpleDateFormat
@@ -25,12 +26,14 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.text.ParseException
+import java.util.Calendar
+import java.util.Date
+import java.util.TimeZone
 
 class FinalizarPedidoActivity : AppCompatActivity() {
     private lateinit var cliente: Cliente
     private lateinit var editCliente: EditText
     private lateinit var editFecha: EditText
-    private lateinit var editHora: EditText
     private lateinit var editNumProductos: EditText
     private lateinit var editTotal: EditText
     private lateinit var editComentarios: EditText
@@ -49,7 +52,24 @@ class FinalizarPedidoActivity : AppCompatActivity() {
 
         editCliente = findViewById(R.id.editCliente)
         editFecha = findViewById(R.id.editFechaEntrega)
-        editHora = findViewById(R.id.editHora)
+        editFecha.setOnClickListener {
+            val calendario = Calendar.getInstance()
+            val year = calendario.get(Calendar.YEAR)
+            val month = calendario.get(Calendar.MONTH)
+            val day = calendario.get(Calendar.DAY_OF_MONTH)
+
+            val datePicker = DatePickerDialog(
+                this,
+                { _, selectedYear, selectedMonth, selectedDay ->
+                    val fechaSeleccionada = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
+                    editFecha.setText(fechaSeleccionada)
+                },
+                year, month, day
+            )
+
+            datePicker.show()
+        }
+
         editNumProductos = findViewById(R.id.editNumProductos)
         editTotal = findViewById(R.id.editTotal)
         editComentarios = findViewById(R.id.editComentarios)
@@ -58,12 +78,13 @@ class FinalizarPedidoActivity : AppCompatActivity() {
         editNumProductos.setText(cantidadProd.toString())
         editTotal.setText("$${String.format("%.2f", valorTotal)}")
 
+        obtenerClientePorId(idUsuario)
+
 
         //Adaptabilidad
         val mainLayout: ScrollView = findViewById(R.id.main)
         val titleCliente: TextView = findViewById(R.id.tituloCliente)
         val titleDate: TextView = findViewById(R.id.tituloFechaEntrega)
-        val titleHora: TextView = findViewById(R.id.tituloHora)
         val titleCantidad: TextView = findViewById(R.id.tituloNumProductos)
         val titleTotal: TextView = findViewById(R.id.tituloTotal)
         val titleComentarios: TextView = findViewById(R.id.tituloComentarios)
@@ -74,7 +95,6 @@ class FinalizarPedidoActivity : AppCompatActivity() {
             mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
             titleCliente.setTextColor(resources.getColor(R.color.orange, null))
             titleDate.setTextColor(resources.getColor(R.color.orange, null))
-            titleHora.setTextColor(resources.getColor(R.color.orange, null))
             titleCantidad.setTextColor(resources.getColor(R.color.orange, null))
             titleTotal.setTextColor(resources.getColor(R.color.orange, null))
             titleComentarios.setTextColor(resources.getColor(R.color.orange, null))
@@ -85,7 +105,6 @@ class FinalizarPedidoActivity : AppCompatActivity() {
             mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
             titleCliente.setTextColor(resources.getColor(R.color.darkgrey, null))
             titleDate.setTextColor(resources.getColor(R.color.darkgrey, null))
-            titleHora.setTextColor(resources.getColor(R.color.darkgrey, null))
             titleCantidad.setTextColor(resources.getColor(R.color.darkgrey, null))
             titleTotal.setTextColor(resources.getColor(R.color.darkgrey, null))
             titleComentarios.setTextColor(resources.getColor(R.color.darkgrey, null))
@@ -100,7 +119,6 @@ class FinalizarPedidoActivity : AppCompatActivity() {
                 mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))
                 titleCliente.setTextColor(resources.getColor(R.color.darkgrey, null))
                 titleDate.setTextColor(resources.getColor(R.color.darkgrey, null))
-                titleHora.setTextColor(resources.getColor(R.color.darkgrey, null))
                 titleCantidad.setTextColor(resources.getColor(R.color.darkgrey, null))
                 titleTotal.setTextColor(resources.getColor(R.color.darkgrey, null))
                 titleComentarios.setTextColor(resources.getColor(R.color.darkgrey, null))
@@ -112,7 +130,6 @@ class FinalizarPedidoActivity : AppCompatActivity() {
                 mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))
                 titleCliente.setTextColor(resources.getColor(R.color.orange, null))
                 titleDate.setTextColor(resources.getColor(R.color.orange, null))
-                titleHora.setTextColor(resources.getColor(R.color.orange, null))
                 titleCantidad.setTextColor(resources.getColor(R.color.orange, null))
                 titleTotal.setTextColor(resources.getColor(R.color.orange, null))
                 titleComentarios.setTextColor(resources.getColor(R.color.orange, null))
@@ -121,11 +138,6 @@ class FinalizarPedidoActivity : AppCompatActivity() {
                 color = "ORANGE"
             }
         }
-
-        //--------------------------------------
-
-        //cargarClienteDesdeApi(idUsuario)
-
         buttonRegistrar.setOnClickListener {
 
             if (!validarCampos()) {
@@ -133,17 +145,15 @@ class FinalizarPedidoActivity : AppCompatActivity() {
             }
 
             val fechaEntrega = editFecha.text.toString().trim()
-            val hora = editHora.text.toString().trim()
+            val fechaISO = convertirFechaAISO8601(fechaEntrega)
             val comentarios = editComentarios.text.toString().trim()
-            //val numProductos = editNumProductos.text.toString().trim().toInt()
-            //val total = editTotal.text.toString().trim().toDouble()
 
            val pedido = Pedido(
                 idCliente = idUsuario,
-                fechaEntrega = fechaEntrega,
+                fechaEntrega = fechaISO,
                 estadoPedido = "CREADO",
                 valorTotal = valorTotal,
-                idVendedor = "",
+                idVendedor = null,
                 comentarios = comentarios,
                 idMoneda = 11
             )
@@ -158,39 +168,37 @@ class FinalizarPedidoActivity : AppCompatActivity() {
         }
     }
 
-    private fun cargarClienteDesdeApi(idUsuario: String?) {
+    private fun obtenerClientePorId(idUsuario: String?) {
         if (idUsuario == null) {
             Toast.makeText(this, "ID del producto no disponible", Toast.LENGTH_SHORT).show()
             return
         }
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://inventarios-596275467600.us-central1.run.app/api/") // Cambia por tu URL real
+            .baseUrl("https://servicio-cliente-596275467600.us-central1.run.app/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val apiService = retrofit.create(ApiService::class.java)
-        apiService.getClienteId(idUsuario).enqueue(object : Callback<RespuestaCliente> {
-            override fun onResponse(call: Call<RespuestaCliente>, response: Response<RespuestaCliente>) {
+        apiService.getClienteId(idUsuario).enqueue(object : Callback<SingleCliente> {
+            override fun onResponse(call: Call<SingleCliente>, response: Response<SingleCliente>) {
                 if (response.isSuccessful) {
-                    val clienter = response.body()?.clientes
-                    //cliente = clienter.get(1)
-                    findViewById<TextView>(R.id.editCliente).text = cliente.nombre
-
-                    if (cliente == null) {
-                        findViewById<Button>(R.id.buttonAgregar).isEnabled = false
-                        findViewById<Button>(R.id.buttonAgregar).alpha = 0.5f
+                    val clientea = response.body()?.cliente
+                    if (clientea != null) {
+                        cliente = clientea
+                        editCliente.setText("${cliente.nombre} ${cliente.apellido}")
+                    } else {
+                        findViewById<Button>(R.id.buttonRegistrar).isEnabled = false
+                        findViewById<Button>(R.id.buttonRegistrar).alpha = 0.5f
+                        return
                     }
 
                 } else {
-                    findViewById<TextView>(R.id.textStock).text = "Stock: 0 unidades, producto no disponible"
-                    findViewById<Button>(R.id.buttonAgregar).isEnabled = false
-                    findViewById<Button>(R.id.buttonAgregar).alpha = 0.5f
-                    findViewById<EditText>(R.id.editCantidad).isEnabled = false
-                    //Toast.makeText(this@DetalleProductoActivity, "Error al cargar stock", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@FinalizarPedidoActivity, "Error al cargar cliente", Toast.LENGTH_SHORT).show()
+
                 }
             }
 
-            override fun onFailure(call: Call<RespuestaCliente>, t: Throwable) {
+            override fun onFailure(call: Call<SingleCliente>, t: Throwable) {
                 findViewById<Button>(R.id.buttonRegistrar).isEnabled = false
                 findViewById<Button>(R.id.buttonRegistrar).alpha = 0.5f
                 Toast.makeText(this@FinalizarPedidoActivity, "Error de conexión con cliente", Toast.LENGTH_SHORT).show()
@@ -214,17 +222,6 @@ class FinalizarPedidoActivity : AppCompatActivity() {
             return false
         }
 
-        if (!validarHora(editHora.text.toString().trim())) {
-            showToast("La hora debe tener el formato HH:MM")
-            return false
-        }
-
-
-        if (editHora.text.toString().trim().isEmpty()) {
-            showToast("Ingrese la hora")
-            return false
-        }
-
         if (editNumProductos.text.toString().trim().isEmpty()) {
             showToast("Número de productos es obligatorio")
             return false
@@ -238,12 +235,6 @@ class FinalizarPedidoActivity : AppCompatActivity() {
         return true
 
     }
-
-    fun validarHora(hora: String): Boolean {
-        val regex = "^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$".toRegex()
-        return hora.matches(regex)
-    }
-
     private fun validarFecha(fecha: String): Boolean {
         val formato = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
@@ -326,5 +317,14 @@ class FinalizarPedidoActivity : AppCompatActivity() {
                 Toast.makeText(this@FinalizarPedidoActivity, "Error de conexión con pedido", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    private fun convertirFechaAISO8601(fecha: String): String {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+        outputFormat.timeZone = TimeZone.getTimeZone("UTC")
+
+        val date: Date = inputFormat.parse(fecha)!!
+        return outputFormat.format(date)
     }
 }

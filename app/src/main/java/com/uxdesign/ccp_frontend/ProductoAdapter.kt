@@ -27,6 +27,7 @@ class ProductoAdapter(private val productos: List<Producto>, private val color: 
             val intent = Intent(context, DetalleProductoActivity::class.java).apply {
 
                 putExtra("id_usuario", idUsuario)
+                putExtra("producto_id", producto.id)
                 putExtra("producto_nombre", producto.nombre)
                 putExtra("producto_precio", producto.precioUnitario)
                 putExtra("producto_descripcion", producto.descripcion)
