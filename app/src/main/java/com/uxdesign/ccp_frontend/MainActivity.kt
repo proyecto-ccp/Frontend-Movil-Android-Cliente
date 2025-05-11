@@ -16,6 +16,10 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
+        val versionName = packageManager.getPackageInfo(packageName, 0).versionName
+        val versionText = findViewById<TextView>(R.id.textVersion)
+        versionText.text = "Versión: $versionName"
+
         val registrar: TextView = findViewById(R.id.textoRegistrarme)
         registrar.setOnClickListener {
             val intent = Intent(this, RegistrarClienteActivity::class.java)
