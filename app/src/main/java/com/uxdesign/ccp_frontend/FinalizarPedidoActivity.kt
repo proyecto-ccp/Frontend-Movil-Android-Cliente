@@ -74,7 +74,6 @@ class FinalizarPedidoActivity : AppCompatActivity() {
         editTotal = findViewById(R.id.editTotal)
         editComentarios = findViewById(R.id.editComentarios)
 
-        editCliente.setText(idUsuario)
         editNumProductos.setText(cantidadProd.toString())
         editTotal.setText("$${String.format("%.2f", valorTotal)}")
 
