@@ -22,7 +22,6 @@ import retrofit2.Response
 
 
 class DetalleProductoActivity : AppCompatActivity() {
-    private lateinit var apiService: ApiService
     private var productoPrecio: Double = 0.0
     private var stockDisponible: Int = 0
     private var modoEscalaGrises = false
@@ -93,8 +92,7 @@ class DetalleProductoActivity : AppCompatActivity() {
         val nombreProducto: TextView = findViewById(R.id.textNombreProducto)
         val precioProducto: TextView = findViewById(R.id.textPrecioProducto)
         val descripcionProducto: TextView = findViewById(R.id.textDescripcionProducto)
-        val stockProducto: TextView = findViewById(R.id.textStock)
-
+        
         nombreProducto.text = productoNombre
         precioProducto.text = "$${productoPrecio}"
         descripcionProducto.text = productoDescripcion
@@ -108,13 +106,17 @@ class DetalleProductoActivity : AppCompatActivity() {
         cargarStockDesdeApi(productoId)
 
         editCantidad.addTextChangedListener(object: android.text.TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                //Caso que no requiere implementacion
+            }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val cantidad= s.toString().toIntOrNull() ?: 0
                 val total = cantidad * productoPrecio
                 editValor.setText("$%.2f".format(total))
             }
-            override fun afterTextChanged(s: android.text.Editable?){}
+            override fun afterTextChanged(s: android.text.Editable?){
+                //Caso que no requiere implementacion
+            }
         })
 
 
@@ -141,7 +143,7 @@ class DetalleProductoActivity : AppCompatActivity() {
                 precioUnitario = productoPrecio
             )
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://servicio-pedidos-596275467600.us-central1.run.app/api/") // Cambia a tu URL real
+                .baseUrl("https://servicio-pedidos-596275467600.us-central1.run.app/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 

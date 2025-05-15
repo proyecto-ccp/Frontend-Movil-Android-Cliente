@@ -43,6 +43,7 @@ class RegistrarClienteActivity : AppCompatActivity() {
     private var nombreZona: String = ""
     private var listaTiposDocs: List<TipoDocumento> = emptyList()
     private var selectedTipoDoc: String = ""
+    private val SELECCIONA_UNO = "Selecciona uno"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -190,7 +191,7 @@ class RegistrarClienteActivity : AppCompatActivity() {
                     val adapter = ArrayAdapter(
                         this@RegistrarClienteActivity,
                         android.R.layout.simple_spinner_item,
-                        listOf("Selecciona una") + nombresCiudades
+                        listOf(SELECCIONA_UNO) + nombresCiudades
                     )
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     spinnerCiudad.adapter = adapter
@@ -222,7 +223,7 @@ class RegistrarClienteActivity : AppCompatActivity() {
                     val adapter = ArrayAdapter(
                         this@RegistrarClienteActivity,
                         android.R.layout.simple_spinner_item,
-                        listOf("Selecciona una") + nombresZonas
+                        listOf(SELECCIONA_UNO) + nombresZonas
                     )
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     spinnerZona.adapter = adapter
@@ -256,7 +257,7 @@ class RegistrarClienteActivity : AppCompatActivity() {
                     val adapter = ArrayAdapter(
                         this@RegistrarClienteActivity,
                         android.R.layout.simple_spinner_item,
-                        listOf("Selecciona uno") + nombresTiposDocs
+                        listOf(SELECCIONA_UNO) + nombresTiposDocs
                     )
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     spinnerTipoDoc.adapter = adapter
