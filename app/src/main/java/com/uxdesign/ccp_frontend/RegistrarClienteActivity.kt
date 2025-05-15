@@ -326,21 +326,21 @@ class RegistrarClienteActivity : AppCompatActivity() {
         }
 
         val selectedSpinnerTD = spinnerTipoDoc.selectedItem.toString()
-        if (selectedSpinnerTD == "Selecciona uno") {
+        if (selectedSpinnerTD == SELECCIONA_UNO) {
             Toast.makeText(this, "Por favor selecciona un tipo de documento", Toast.LENGTH_SHORT)
                 .show()
             return false
         }
 
         val selectedSpinnerC = spinnerCiudad.selectedItem.toString()
-        if (selectedSpinnerC == "Selecciona uno") {
+        if (selectedSpinnerC == SELECCIONA_UNO) {
             Toast.makeText(this, "Por favor selecciona una ciudad", Toast.LENGTH_SHORT)
                 .show()
             return false
         }
 
         val selectedSpinnerZ = spinnerZona.selectedItem
-        if (selectedSpinnerZ == null || selectedSpinnerZ.toString() == "Selecciona uno") {
+        if (selectedSpinnerZ == null || selectedSpinnerZ.toString() == SELECCIONA_UNO) {
             Toast.makeText(this, "Por favor verifica que hayas selecciona una ciudad y luego una zona", Toast.LENGTH_SHORT)
                 .show()
             return false
