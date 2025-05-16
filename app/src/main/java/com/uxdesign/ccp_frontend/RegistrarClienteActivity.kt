@@ -115,8 +115,8 @@ class RegistrarClienteActivity : AppCompatActivity() {
                 direccion = direccionText.text.toString(),
                 ciudad = nombreCiudad,
                 idZona = selectedZonaId,
-                zona = nombreZona
-                //contrasenia = contraseniaText.text.toString()
+                zona = nombreZona,
+                contrasenia = contraseniaText.text.toString()
             )
 
             val retrofit = Retrofit.Builder()

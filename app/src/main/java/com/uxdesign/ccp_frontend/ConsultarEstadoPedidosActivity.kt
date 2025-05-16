@@ -46,7 +46,7 @@ class ConsultarEstadoPedidosActivity : AppCompatActivity() {
             Toast.makeText(this, "ID de usuario no disponible", Toast.LENGTH_SHORT).show()
             return
         }
-        val estado = "CREADO"
+        val estado = "CONFIRMADO"
         val retrofit = Retrofit.Builder()
             .baseUrl("https://servicio-pedidos-596275467600.us-central1.run.app/api/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -61,7 +61,7 @@ class ConsultarEstadoPedidosActivity : AppCompatActivity() {
                         if (pedidoList != null) {
                             pedidos.clear()
                             pedidos.addAll(pedidoList)
-                            (findViewById<RecyclerView>(R.id.recyclerViewEstadoPedidos).adapter as PedidoAdapter).notifyDataSetChanged()
+                            (findViewById<RecyclerView>(R.id.recyclerViewEntregas).adapter as EntregaAdapter).notifyDataSetChanged()
                         }
                     } else {
                         Toast.makeText(this@ConsultarEstadoPedidosActivity, "Error al cargar los estados de pedidos", Toast.LENGTH_SHORT).show()
