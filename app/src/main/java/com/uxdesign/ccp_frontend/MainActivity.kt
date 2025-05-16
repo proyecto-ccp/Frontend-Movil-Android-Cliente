@@ -2,6 +2,7 @@ package com.uxdesign.ccp_frontend
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -10,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.gson.Gson
 import com.uxdesign.cpp.R
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -88,6 +90,7 @@ class MainActivity : AppCompatActivity() {
                 response: Response<RespuestaLogin>
             ) {
                 val loginResponse = response.body()
+                Log.d("LOGIN_RESPONSE", Gson().toJson(loginResponse))
                 if (response.isSuccessful && loginResponse != null) {
                     if (loginResponse.menu.equals("verde", ignoreCase = true)) {
                         idUsuario = loginResponse.idusuario

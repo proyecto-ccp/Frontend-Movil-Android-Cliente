@@ -2,6 +2,7 @@ package com.uxdesign.ccp_frontend
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 
@@ -14,6 +15,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.gson.Gson
 import com.uxdesign.cpp.R
 import okhttp3.ResponseBody
 import retrofit2.Retrofit
@@ -120,10 +122,11 @@ class RegistrarClienteActivity : AppCompatActivity() {
             )
 
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://servicio-cliente-596275467600.us-central1.run.app/api/")  // Aqui URL de microservicio
+                .baseUrl("https://servicio-cliente-596275467600.us-central1.run.app/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
+            Log.d("CLIENTE_REQUEST", Gson().toJson(cliente))
             val apiService = retrofit.create(ApiService::class.java)
             apiService.registrarCliente(cliente).enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(
@@ -146,7 +149,7 @@ class RegistrarClienteActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             this@RegistrarClienteActivity,
-                            "Error: ${response.code()}",
+                            "Error al cargar usuario",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -155,7 +158,7 @@ class RegistrarClienteActivity : AppCompatActivity() {
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Toast.makeText(
                         this@RegistrarClienteActivity,
-                        "Fallo: ${t.message}",
+                        "Error de conexión",
                         Toast.LENGTH_LONG
                     ).show()
                 }
