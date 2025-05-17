@@ -12,7 +12,7 @@ import java.util.Date
 import java.util.Locale
 
 class PedidoAdapter(private val pedidos: List<PedidoProcesado>,
-    private val idUsuario: String, private val token: String) : RecyclerView.Adapter<PedidoAdapter.PedidoViewHolder>() {
+    private val idUsuario: String) : RecyclerView.Adapter<PedidoAdapter.PedidoViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PedidoViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_estado_pedido, parent, false)
         return PedidoViewHolder(itemView)
@@ -27,7 +27,6 @@ class PedidoAdapter(private val pedidos: List<PedidoProcesado>,
             val intent = Intent(context, DetallePedidoActivity::class.java).apply {
                 putExtra("pedido_id", pedido.id)
                 putExtra("id_usuario", idUsuario)
-                putExtra("token", token)
             }
             context.startActivity(intent)
         }

@@ -21,19 +21,17 @@ class ConsultarEstadoPedidosActivity : AppCompatActivity() {
     private lateinit var apiService: ApiService
     private lateinit var adapter: PedidoAdapter
     private lateinit var idUsuario: String
-    private lateinit var token: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_consultar_estado_pedidos)
         idUsuario = intent.getStringExtra("id_usuario") ?: ""
-        token = intent.getStringExtra("token") ?: ""
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewEstadoPedidos)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        adapter = PedidoAdapter(pedidos, idUsuario, token)
+        adapter = PedidoAdapter(pedidos, idUsuario)
         recyclerView.adapter = adapter
 
         getPedidos(idUsuario)
@@ -51,14 +49,7 @@ class ConsultarEstadoPedidosActivity : AppCompatActivity() {
             return
         }
             val client = OkHttpClient.Builder()
-                .addInterceptor { chain ->
-                    val original = chain.request()
-                    val request = original.newBuilder()
-                        .header("Authorization", "Bearer $token")
-                        .method(original.method, original.body)
-                        .build()
-                    chain.proceed(request)
-                }
+                .addInterceptor(AuthInterceptor(this))
                 .build()
 
         val estado = "CONFIRMADO"

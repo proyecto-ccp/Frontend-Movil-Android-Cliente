@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uxdesign.cpp.R
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,12 +19,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 class EntregaProgramadaActivity : AppCompatActivity() {
     private val pedidos = mutableListOf<PedidoProcesado>()
     private lateinit var apiService: ApiService
+    private lateinit var idUsuario: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_entrega_programada)
-
-        val idUsuario = "d7be0dc4-b41a-4719-83ee-84f11e68b622"
+        idUsuario = intent.getStringExtra("id_usuario") ?: ""
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewEntregas)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -46,8 +47,14 @@ class EntregaProgramadaActivity : AppCompatActivity() {
             return
         }
         val estado = "CREADO"
+
+        val client = OkHttpClient.Builder()
+            .addInterceptor(AuthInterceptor(this))
+            .build()
+
         val retrofit = Retrofit.Builder()
             .baseUrl("https://servicio-pedidos-596275467600.us-central1.run.app/api/")
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

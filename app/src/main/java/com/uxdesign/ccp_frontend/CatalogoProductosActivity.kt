@@ -28,14 +28,12 @@ class CatalogoProductosActivity : AppCompatActivity() {
     private var modoEscalaGrises = false
     private var color = "ORANGE"
     private var idUsuario = ""
-    private var token = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_catalogo_productos)
 
         idUsuario = intent.getStringExtra("id_usuario") ?: "desconocido"
-        token = intent.getStringExtra("token") ?: ""
 
         //Adaptabilidad
 
@@ -66,7 +64,6 @@ class CatalogoProductosActivity : AppCompatActivity() {
             val intent = Intent(this, VerPedidoActivity::class.java)
             intent.putExtra("id_usuario", idUsuario)
             intent.putExtra("color", color )
-            intent.putExtra("token", token )
             startActivity(intent)
         }
 
@@ -76,14 +73,7 @@ class CatalogoProductosActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         val client = OkHttpClient.Builder()
-            .addInterceptor { chain ->
-                val original = chain.request()
-                val request = original.newBuilder()
-                    .header("Authorization", "Bearer $token")
-                    .method(original.method, original.body)
-                    .build()
-                chain.proceed(request)
-            }
+            .addInterceptor(AuthInterceptor(this@CatalogoProductosActivity))
             .build()
 
         val retrofit = Retrofit.Builder()

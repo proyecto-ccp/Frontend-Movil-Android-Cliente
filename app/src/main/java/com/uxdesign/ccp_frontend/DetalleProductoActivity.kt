@@ -32,7 +32,6 @@ class DetalleProductoActivity : AppCompatActivity() {
     private var modoEscalaGrises = false
     private var color: String? = "ORANGE"
     private var idUsuario = ""
-    private var token = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,7 +88,6 @@ class DetalleProductoActivity : AppCompatActivity() {
         }
 
         idUsuario = intent.getStringExtra("id_usuario") ?: " "
-        token  = intent.getStringExtra("token") ?: " "
         val productoId = intent.getIntExtra("producto_id", -1)
         val productoNombre = intent.getStringExtra("producto_nombre")
         productoPrecio = intent.getDoubleExtra("producto_precio", 0.0)
@@ -149,14 +147,7 @@ class DetalleProductoActivity : AppCompatActivity() {
             )
 
             val client = OkHttpClient.Builder()
-                .addInterceptor { chain ->
-                    val original = chain.request()
-                    val request = original.newBuilder()
-                        .header("Authorization", "Bearer $token")
-                        .method(original.method, original.body)
-                        .build()
-                    chain.proceed(request)
-                }
+                .addInterceptor(AuthInterceptor(this))
                 .build()
 
             val retrofit = Retrofit.Builder()
@@ -174,7 +165,6 @@ class DetalleProductoActivity : AppCompatActivity() {
                         val intent = Intent(this@DetalleProductoActivity, VerPedidoActivity::class.java).apply {
                             putExtra("id_usuario", idUsuario)
                             putExtra("color", color)
-                            putExtra("token", token)
                         }
                         startActivity(intent)
                     } else {

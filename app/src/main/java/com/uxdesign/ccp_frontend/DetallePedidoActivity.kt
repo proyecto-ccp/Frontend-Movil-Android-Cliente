@@ -20,7 +20,6 @@ class DetallePedidoActivity : AppCompatActivity() {
     private val productos = mutableListOf<ProductoCarritoDetalle>()
     private lateinit var apiService: ApiService
     private lateinit var idUsuario: String
-    private lateinit var token: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +28,6 @@ class DetallePedidoActivity : AppCompatActivity() {
 
         val pedidoId = intent.getStringExtra("pedido_id")
         idUsuario = intent.getStringExtra("id_usuario") ?: ""
-        token = intent.getStringExtra("token") ?: ""
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewProductosPedido)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -38,14 +36,7 @@ class DetallePedidoActivity : AppCompatActivity() {
         recyclerView.adapter = ProductoPedidoDetalleAdapter(productos)
 
         val client = OkHttpClient.Builder()
-            .addInterceptor { chain ->
-                val original = chain.request()
-                val request = original.newBuilder()
-                    .header("Authorization", "Bearer $token")
-                    .method(original.method, original.body)
-                    .build()
-                chain.proceed(request)
-            }
+            .addInterceptor(AuthInterceptor(this))
             .build()
 
         val retrofit = Retrofit.Builder()

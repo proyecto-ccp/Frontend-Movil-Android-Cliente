@@ -13,19 +13,18 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.gson.Gson
 import com.uxdesign.cpp.R
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.uxdesign.cpp.utils.TokenManager
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var usuarioText: EditText
     private lateinit var contraseniaText: EditText
     private var idUsuario = ""
-    private var token = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -45,9 +44,9 @@ class MainActivity : AppCompatActivity() {
             if (!validarCampos()) {
                 return@setOnClickListener
             }
-            validarUsuario(usuarioText.text.toString(), contraseniaText.text.toString())
-            //val intent = Intent(this, MenuActivity::class.java)
-            //startActivity(intent)
+            //validarUsuario(usuarioText.text.toString(), contraseniaText.text.toString())
+            val intent = Intent(this, MenuActivity::class.java)
+            startActivity(intent)
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -96,22 +95,22 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful && loginResponse != null) {
                     if (loginResponse.menu.equals("verde", ignoreCase = true)) {
                         idUsuario = loginResponse.idusuario
-                        token = loginResponse.token
+                        val token = loginResponse.token
+                        TokenManager.saveToken(this@MainActivity, loginResponse.token)
                         val intent = Intent(this@MainActivity, MenuActivity::class.java)
                         intent.putExtra("id_usuario", idUsuario)
-                        intent.putExtra("token", token)
                         startActivity(intent)
                     } else {
                         Toast.makeText(
                             this@MainActivity,
-                            "Usuario no autorizado para la aplicación de Cliente",
+                            loginResponse.mensaje,
                             Toast.LENGTH_LONG
                         ).show()
                     }
                 } else {
                     Toast.makeText(
                         this@MainActivity,
-                        "Usuario o contraseña incorrectos",
+                        loginResponse?.mensaje ?: "No fue posible autenticas al usuario",
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -120,10 +119,11 @@ class MainActivity : AppCompatActivity() {
             override fun onFailure(call: Call<RespuestaLogin>, t: Throwable) {
                 Toast.makeText(
                     this@MainActivity,
-                    "Error de conexión con usuario",
+                    "Usuario no encontrado",
                     Toast.LENGTH_LONG
                 ).show()
             }
         })
     }
+
 }

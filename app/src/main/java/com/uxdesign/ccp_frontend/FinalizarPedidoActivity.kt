@@ -41,7 +41,6 @@ class FinalizarPedidoActivity : AppCompatActivity() {
     private var modoEscalaGrises = false
     private var color: String? = "ORANGE"
     private lateinit var idUsuario: String
-    private lateinit var token: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +48,6 @@ class FinalizarPedidoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_finalizar_pedido)
 
         idUsuario = intent.getStringExtra("id_usuario") ?: ""
-        token = intent.getStringExtra("token") ?: ""
         val cantidadProd = intent.getIntExtra("cantidad_productos", 0)
         val valorTotal = intent.getDoubleExtra("valor_total", 0.0)
         color = intent.getStringExtra("color")
@@ -257,14 +255,7 @@ class FinalizarPedidoActivity : AppCompatActivity() {
     }
 
     val client = OkHttpClient.Builder()
-        .addInterceptor { chain ->
-            val original = chain.request()
-            val request = original.newBuilder()
-                .header("Authorization", "Bearer $token")
-                .method(original.method, original.body)
-                .build()
-            chain.proceed(request)
-        }
+        .addInterceptor(AuthInterceptor(this))
         .build()
     private fun enviarPedido(pedido: Pedido, idUsuario: String) {
         val retrofit = Retrofit.Builder()
