@@ -45,8 +45,9 @@ class MainActivity : AppCompatActivity() {
             if (!validarCampos()) {
                 return@setOnClickListener
             }
-            validarUsuario(usuarioText.text.toString(), contraseniaText.text.toString())
-
+            //validarUsuario(usuarioText.text.toString(), contraseniaText.text.toString())
+            val intent = Intent(this, MenuActivity::class.java)
+            startActivity(intent)
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -83,6 +84,7 @@ class MainActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
+        Log.d("LOGIN_REQUEST", Gson().toJson(login))
         val apiService = retrofit.create(ApiService::class.java)
         apiService.login(login).enqueue(object : Callback<RespuestaLogin> {
             override fun onResponse(

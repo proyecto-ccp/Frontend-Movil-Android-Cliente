@@ -18,6 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ConsultarEstadoPedidosActivity : AppCompatActivity() {
     private val pedidos = mutableListOf<PedidoProcesado>()
     private lateinit var apiService: ApiService
+    private lateinit var adapter: PedidoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +29,7 @@ class ConsultarEstadoPedidosActivity : AppCompatActivity() {
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewEstadoPedidos)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val adapter = PedidoAdapter(pedidos)
+        adapter = PedidoAdapter(pedidos)
         recyclerView.adapter = adapter
 
         getPedidos(idUsuario)
@@ -61,7 +62,7 @@ class ConsultarEstadoPedidosActivity : AppCompatActivity() {
                         if (pedidoList != null) {
                             pedidos.clear()
                             pedidos.addAll(pedidoList)
-                            (findViewById<RecyclerView>(R.id.recyclerViewEntregas).adapter as EntregaAdapter).notifyDataSetChanged()
+                            adapter.notifyDataSetChanged()
                         }
                     } else {
                         Toast.makeText(this@ConsultarEstadoPedidosActivity, "Error al cargar los estados de pedidos", Toast.LENGTH_SHORT).show()

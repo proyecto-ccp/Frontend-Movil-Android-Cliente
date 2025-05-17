@@ -1,6 +1,7 @@
 package com.uxdesign.ccp_frontend
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,23 +37,26 @@ class EntregaAdapter(private val pedidos: List<PedidoProcesado>) : RecyclerView.
         private val pedidoEstado: TextView = itemView.findViewById(R.id.estadoPedido)
 
         fun bind(pedido: PedidoProcesado) {
-            val formato = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            Log.d("FechaDebug", "Realizado: '${pedido.fechaRealizado}' | Entrega: '${pedido.fechaEntrega}'")
+            val formatoEntrada = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+            val formatoSalida = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
             val fechaFormateadaR = try {
-                val fechaR = formato.parse(pedido.fechaRealizado)
-                formato.format(fechaR ?: Date())
+                val fechaR = formatoEntrada.parse(pedido.fechaRealizado)
+                formatoSalida.format(fechaR ?: Date())
             } catch (e: Exception) {
-                pedido.fechaEntrega
+                pedido.fechaRealizado
             }
 
             val fechaFormateadaE = try {
-                val fechaE = formato.parse(pedido.fechaEntrega)
-                formato.format(fechaE ?: Date())
+                val fechaE = formatoEntrada.parse(pedido.fechaEntrega)
+                formatoSalida.format(fechaE ?: Date())
             } catch (e: Exception) {
                 pedido.fechaEntrega
             }
 
-            pedidoFecha.text = fechaFormateadaR
-            entregaFecha.text = fechaFormateadaE
+            pedidoFecha.text = "Fecha Realizado: $fechaFormateadaR"
+            entregaFecha.text = "Fecha Entrega: $fechaFormateadaE"
             pedidoEstado.text = pedido.estadoPedido
 
             when (pedido.estadoPedido.lowercase(Locale.getDefault())) {

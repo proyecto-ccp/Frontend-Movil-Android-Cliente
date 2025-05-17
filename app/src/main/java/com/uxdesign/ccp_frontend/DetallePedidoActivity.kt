@@ -28,6 +28,8 @@ class DetallePedidoActivity : AppCompatActivity() {
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewProductosPedido)
         recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val adapter = ProductoPedidoDetalleAdapter(productos)
         recyclerView.adapter = ProductoPedidoDetalleAdapter(productos)
 
         val retrofit = Retrofit.Builder()

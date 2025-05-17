@@ -23,12 +23,12 @@ class EntregaProgramadaActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_entrega_programada)
 
-        val idUsuario = "5ba9f1b7-ec06-4af0-8f84-25b039d95101"
+        val idUsuario = "d7be0dc4-b41a-4719-83ee-84f11e68b622"
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewEntregas)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val adapter = PedidoAdapter(pedidos)
+        val adapter = EntregaAdapter(pedidos)
         recyclerView.adapter = adapter
 
         getPedidos(idUsuario)
