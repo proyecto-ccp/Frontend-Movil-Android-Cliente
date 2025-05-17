@@ -17,6 +17,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.uxdesign.cpp.R
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -30,6 +31,8 @@ class DetalleProductoActivity : AppCompatActivity() {
     private var stockDisponible: Int = 0
     private var modoEscalaGrises = false
     private var color: String? = "ORANGE"
+    private var idUsuario = ""
+    private var token = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,7 +88,8 @@ class DetalleProductoActivity : AppCompatActivity() {
             }
         }
 
-        val idUsuario = intent.getStringExtra("id_usuario") ?: " "
+        idUsuario = intent.getStringExtra("id_usuario") ?: " "
+        token  = intent.getStringExtra("token") ?: " "
         val productoId = intent.getIntExtra("producto_id", -1)
         val productoNombre = intent.getStringExtra("producto_nombre")
         productoPrecio = intent.getDoubleExtra("producto_precio", 0.0)
@@ -143,8 +147,21 @@ class DetalleProductoActivity : AppCompatActivity() {
                 idUsuario = idUsuario,
                 precioUnitario = productoPrecio
             )
+
+            val client = OkHttpClient.Builder()
+                .addInterceptor { chain ->
+                    val original = chain.request()
+                    val request = original.newBuilder()
+                        .header("Authorization", "Bearer $token")
+                        .method(original.method, original.body)
+                        .build()
+                    chain.proceed(request)
+                }
+                .build()
+
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://servicio-pedidos-596275467600.us-central1.run.app/api/")
+                .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
@@ -157,6 +174,7 @@ class DetalleProductoActivity : AppCompatActivity() {
                         val intent = Intent(this@DetalleProductoActivity, VerPedidoActivity::class.java).apply {
                             putExtra("id_usuario", idUsuario)
                             putExtra("color", color)
+                            putExtra("token", token)
                         }
                         startActivity(intent)
                     } else {

@@ -45,9 +45,9 @@ class MainActivity : AppCompatActivity() {
             if (!validarCampos()) {
                 return@setOnClickListener
             }
-            //validarUsuario(usuarioText.text.toString(), contraseniaText.text.toString())
-            val intent = Intent(this, MenuActivity::class.java)
-            startActivity(intent)
+            validarUsuario(usuarioText.text.toString(), contraseniaText.text.toString())
+            //val intent = Intent(this, MenuActivity::class.java)
+            //startActivity(intent)
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

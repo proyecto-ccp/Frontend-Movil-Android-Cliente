@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uxdesign.cpp.R
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,6 +19,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class DetallePedidoActivity : AppCompatActivity() {
     private val productos = mutableListOf<ProductoCarritoDetalle>()
     private lateinit var apiService: ApiService
+    private lateinit var idUsuario: String
+    private lateinit var token: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +28,8 @@ class DetallePedidoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detalle_pedido)
 
         val pedidoId = intent.getStringExtra("pedido_id")
+        idUsuario = intent.getStringExtra("id_usuario") ?: ""
+        token = intent.getStringExtra("token") ?: ""
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewProductosPedido)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -32,8 +37,20 @@ class DetallePedidoActivity : AppCompatActivity() {
         val adapter = ProductoPedidoDetalleAdapter(productos)
         recyclerView.adapter = ProductoPedidoDetalleAdapter(productos)
 
+        val client = OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val original = chain.request()
+                val request = original.newBuilder()
+                    .header("Authorization", "Bearer $token")
+                    .method(original.method, original.body)
+                    .build()
+                chain.proceed(request)
+            }
+            .build()
+
         val retrofit = Retrofit.Builder()
             .baseUrl("https://servicio-pedidos-596275467600.us-central1.run.app/api/")
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

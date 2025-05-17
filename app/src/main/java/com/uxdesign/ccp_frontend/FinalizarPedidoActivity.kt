@@ -20,6 +20,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isEmpty
 import com.uxdesign.cpp.R
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,13 +40,16 @@ class FinalizarPedidoActivity : AppCompatActivity() {
     private lateinit var editComentarios: EditText
     private var modoEscalaGrises = false
     private var color: String? = "ORANGE"
+    private lateinit var idUsuario: String
+    private lateinit var token: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_finalizar_pedido)
 
-        val idUsuario = intent.getStringExtra("id_usuario") ?: "desconocido"
+        idUsuario = intent.getStringExtra("id_usuario") ?: ""
+        token = intent.getStringExtra("token") ?: ""
         val cantidadProd = intent.getIntExtra("cantidad_productos", 0)
         val valorTotal = intent.getDoubleExtra("valor_total", 0.0)
         color = intent.getStringExtra("color")
@@ -252,9 +256,20 @@ class FinalizarPedidoActivity : AppCompatActivity() {
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
     }
 
+    val client = OkHttpClient.Builder()
+        .addInterceptor { chain ->
+            val original = chain.request()
+            val request = original.newBuilder()
+                .header("Authorization", "Bearer $token")
+                .method(original.method, original.body)
+                .build()
+            chain.proceed(request)
+        }
+        .build()
     private fun enviarPedido(pedido: Pedido, idUsuario: String) {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://servicio-pedidos-596275467600.us-central1.run.app/api/")
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -286,6 +301,7 @@ class FinalizarPedidoActivity : AppCompatActivity() {
     private fun asociarDetalles(idUsuario: String, idPedido: String) {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://servicio-pedidos-596275467600.us-central1.run.app/api/")
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
