@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uxdesign.cpp.R
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,14 +33,14 @@ class CatalogoProductosActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_catalogo_productos)
 
+        idUsuario = intent.getStringExtra("id_usuario") ?: "desconocido"
+
         //Adaptabilidad
 
         val mainLayout: ConstraintLayout = findViewById(R.id.main)
         val buttonPedido: Button = findViewById(R.id.botonPedido)
         val imageEye: ImageView = findViewById(R.id.imageOjoN)
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewProductos)
-
-        idUsuario = "d7be0dc4-b41a-4719-83ee-84f11e68b622"
 
         imageEye.setOnClickListener {
             modoEscalaGrises = !modoEscalaGrises
@@ -71,8 +72,13 @@ class CatalogoProductosActivity : AppCompatActivity() {
         val adapter = ProductoAdapter(productos, idUsuario, color)
         recyclerView.adapter = adapter
 
+        val client = OkHttpClient.Builder()
+            .addInterceptor(AuthInterceptor(this@CatalogoProductosActivity))
+            .build()
+
         val retrofit = Retrofit.Builder()
             .baseUrl("https://productos-596275467600.us-central1.run.app/api/")
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

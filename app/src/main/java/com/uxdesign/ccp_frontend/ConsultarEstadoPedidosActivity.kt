@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uxdesign.cpp.R
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,17 +19,19 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ConsultarEstadoPedidosActivity : AppCompatActivity() {
     private val pedidos = mutableListOf<PedidoProcesado>()
     private lateinit var apiService: ApiService
+    private lateinit var adapter: PedidoAdapter
+    private lateinit var idUsuario: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_consultar_estado_pedidos)
-        val idUsuario = "5ba9f1b7-ec06-4af0-8f84-25b039d95101"
+        idUsuario = intent.getStringExtra("id_usuario") ?: ""
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewEstadoPedidos)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val adapter = PedidoAdapter(pedidos)
+        adapter = PedidoAdapter(pedidos, idUsuario)
         recyclerView.adapter = adapter
 
         getPedidos(idUsuario)
@@ -40,15 +43,19 @@ class ConsultarEstadoPedidosActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun getPedidos(idUsuario: String?) {
+        private fun getPedidos(idUsuario: String?) {
         if (idUsuario.isNullOrEmpty()) {
             Toast.makeText(this, "ID de usuario no disponible", Toast.LENGTH_SHORT).show()
             return
         }
-        val estado = "CREADO"
+            val client = OkHttpClient.Builder()
+                .addInterceptor(AuthInterceptor(this))
+                .build()
+
+        val estado = "CONFIRMADO"
         val retrofit = Retrofit.Builder()
             .baseUrl("https://servicio-pedidos-596275467600.us-central1.run.app/api/")
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -61,7 +68,7 @@ class ConsultarEstadoPedidosActivity : AppCompatActivity() {
                         if (pedidoList != null) {
                             pedidos.clear()
                             pedidos.addAll(pedidoList)
-                            (findViewById<RecyclerView>(R.id.recyclerViewEstadoPedidos).adapter as PedidoAdapter).notifyDataSetChanged()
+                            adapter.notifyDataSetChanged()
                         }
                     } else {
                         Toast.makeText(this@ConsultarEstadoPedidosActivity, "Error al cargar los estados de pedidos", Toast.LENGTH_SHORT).show()

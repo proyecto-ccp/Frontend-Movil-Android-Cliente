@@ -14,4 +14,6 @@
     <color name="darkgrey">#B3B3B3</color>
     <color name="greytext">#808080</color>
     <color name="greyregistrar">#979DA3</color>
+    <color name="yellow">#F5C469</color>
+    <color name="green">#6B8F71</color>
 </resources>

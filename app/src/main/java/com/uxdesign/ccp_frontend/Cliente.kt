@@ -11,7 +11,7 @@ data class Cliente(
     val direccion: String,
     val ciudad: String,
     val idZona: String,
-    val zona: String
-    //val contrasenia: String
+    val zona: String,
+    val contrasenia: String
 
 )

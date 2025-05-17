@@ -14,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.uxdesign.cpp.R
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -26,6 +27,7 @@ class DetalleProductoActivity : AppCompatActivity() {
     private var stockDisponible: Int = 0
     private var modoEscalaGrises = false
     private var color: String? = "ORANGE"
+    private var idUsuario = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,7 +83,7 @@ class DetalleProductoActivity : AppCompatActivity() {
             }
         }
 
-        val idUsuario = intent.getStringExtra("id_usuario") ?: " "
+        idUsuario = intent.getStringExtra("id_usuario") ?: " "
         val productoId = intent.getIntExtra("producto_id", -1)
         val productoNombre = intent.getStringExtra("producto_nombre")
         productoPrecio = intent.getDoubleExtra("producto_precio", 0.0)
@@ -142,8 +144,15 @@ class DetalleProductoActivity : AppCompatActivity() {
                 idUsuario = idUsuario,
                 precioUnitario = productoPrecio
             )
+
+            val client = OkHttpClient.Builder()
+                .addInterceptor(AuthInterceptor(this))
+                .build()
+
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://servicio-pedidos-596275467600.us-central1.run.app/api/")
+                .client(client)
+
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
