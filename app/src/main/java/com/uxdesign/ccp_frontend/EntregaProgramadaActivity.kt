@@ -71,7 +71,7 @@ class EntregaProgramadaActivity : AppCompatActivity() {
                         (findViewById<RecyclerView>(R.id.recyclerViewEntregas).adapter as EntregaAdapter).notifyDataSetChanged()
                     }
                 } else {
-                    Toast.makeText(this@EntregaProgramadaActivity, "Error al cargar los estados de pedidos", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@EntregaProgramadaActivity, "No tiene pedidos registrados", Toast.LENGTH_SHORT).show()
                 }
             }
 

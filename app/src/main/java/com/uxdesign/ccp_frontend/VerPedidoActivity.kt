@@ -116,7 +116,7 @@ class VerPedidoActivity : AppCompatActivity() {
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://servicio-pedidos-596275467600.us-central1.run.app/api/") // URL base del microservicio
+            .baseUrl("https://servicio-pedidos-596275467600.us-central1.run.app/api/")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

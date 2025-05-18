@@ -54,4 +54,7 @@ interface ApiService {
 
     @POST("Usuarios/Login")
     fun login(@Body request: LoginRequest ): Call<RespuestaLogin>
+
+    @GET("Usuarios/{id}")
+    fun getIdCliente(@Path("id") idUsuario: String):Call<RespuestaUsuario>
 }

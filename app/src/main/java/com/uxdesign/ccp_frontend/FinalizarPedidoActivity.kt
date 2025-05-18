@@ -3,6 +3,7 @@ package com.uxdesign.ccp_frontend
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.Locale
 import android.widget.Button
@@ -15,6 +16,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.gson.Gson
 import com.uxdesign.cpp.R
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -50,6 +52,7 @@ class FinalizarPedidoActivity : AppCompatActivity() {
 
         editCliente = findViewById(R.id.editCliente)
         editFecha = findViewById(R.id.editFechaEntrega)
+        editFecha.setText("2025-05-25")
         editFecha.setOnClickListener {
             val calendario = Calendar.getInstance()
             val year = calendario[Calendar.YEAR]
@@ -150,7 +153,7 @@ class FinalizarPedidoActivity : AppCompatActivity() {
                 fechaEntrega = fechaISO,
                 estadoPedido = "CREADO",
                 valorTotal = valorTotal,
-                idVendedor = null,
+                idVendedor = "b07e8ab8-b787-4f6d-8a85-6c506a3616f5",
                 comentarios = comentarios,
                 idMoneda = 11
             )
@@ -261,10 +264,12 @@ class FinalizarPedidoActivity : AppCompatActivity() {
             .build()
 
         val apiService = retrofit.create(ApiService::class.java)
+        Log.d("PEDIDO", Gson().toJson(pedido))
         apiService.crearPedido(pedido).enqueue(object : Callback<RespuestaRequestPedido> {
             override fun onResponse(call: Call<RespuestaRequestPedido>, response: Response<RespuestaRequestPedido>) {
                 if (response.isSuccessful) {
                     val respuesta = response.body()
+                    Log.d("PEDIDO_RESPONSE", Gson().toJson(respuesta))
                     val idPedido = respuesta?.id
                     if (idPedido != null){
                         asociarDetalles(idUsuario, idPedido)
@@ -286,6 +291,9 @@ class FinalizarPedidoActivity : AppCompatActivity() {
     }
 
     private fun asociarDetalles(idUsuario: String, idPedido: String) {
+        val client = OkHttpClient.Builder()
+            .addInterceptor(AuthInterceptor(this))
+            .build()
         val retrofit = Retrofit.Builder()
             .baseUrl("https://servicio-pedidos-596275467600.us-central1.run.app/api/")
             .client(client)

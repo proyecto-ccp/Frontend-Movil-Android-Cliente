@@ -2,6 +2,7 @@ package com.uxdesign.ccp_frontend
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -13,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.uxdesign.cpp.R
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -157,7 +159,7 @@ class DetalleProductoActivity : AppCompatActivity() {
                 .build()
 
             val api = retrofit.create(ApiService::class.java)
-
+            Log.i("DETALLE", Gson().toJson(productoRequest))
             api.agregarDetallePedido(productoRequest).enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.isSuccessful) {

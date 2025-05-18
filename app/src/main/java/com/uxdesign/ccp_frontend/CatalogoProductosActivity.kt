@@ -12,9 +12,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.uxdesign.ccp_frontend.helpers.CatalogoRepository
 import com.uxdesign.cpp.R
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -72,18 +75,6 @@ class CatalogoProductosActivity : AppCompatActivity() {
         val adapter = ProductoAdapter(productos, idUsuario, color)
         recyclerView.adapter = adapter
 
-        val client = OkHttpClient.Builder()
-            .addInterceptor(AuthInterceptor(this@CatalogoProductosActivity))
-            .build()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://productos-596275467600.us-central1.run.app/api/")
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        apiService = retrofit.create(ApiService::class.java)
-
         getCatalogo()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -94,26 +85,18 @@ class CatalogoProductosActivity : AppCompatActivity() {
     }
 
     private fun getCatalogo() {
-        apiService.getProductos().enqueue(object : Callback<RespuestaProducto> {
-            override fun onResponse(call: Call<RespuestaProducto>, response: Response<RespuestaProducto>) {
-                if (response.isSuccessful) {
-                    val productoList = response.body()?.productos ?: emptyList()
-                    if (productoList != null) {
-                        productos.clear()
-                        productos.addAll(productoList)
-                        val adapter = ProductoAdapter(productos, color, idUsuario)
-                        findViewById<RecyclerView>(R.id.recyclerViewProductos).adapter = adapter
-                        adapter.notifyDataSetChanged()
-                    }
-                } else {
-                    Toast.makeText(this@CatalogoProductosActivity, "Error al cargar el catálogo", Toast.LENGTH_SHORT).show()
-                }
+        lifecycleScope.launch {
+            try {
+                val productosActualizados = CatalogoRepository.obtenerProductos(applicationContext)
+                productos.clear()
+                productos.addAll(productosActualizados)
+                val adapter = ProductoAdapter(productos, color, idUsuario)
+                findViewById<RecyclerView>(R.id.recyclerViewProductos).adapter = adapter
+                adapter.notifyDataSetChanged()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(this@CatalogoProductosActivity, "No se pudo cargar el catálogo: ${e.message}", Toast.LENGTH_LONG).show()
             }
-
-            override fun onFailure(call: Call<RespuestaProducto>, t: Throwable) {
-                t.printStackTrace()
-                Toast.makeText(this@CatalogoProductosActivity, "Error de conexión en catálogo", Toast.LENGTH_SHORT).show()
-            }
-        })
+        }
     }
 }

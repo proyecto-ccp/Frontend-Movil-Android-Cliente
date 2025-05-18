@@ -71,7 +71,7 @@ class ConsultarEstadoPedidosActivity : AppCompatActivity() {
                             adapter.notifyDataSetChanged()
                         }
                     } else {
-                        Toast.makeText(this@ConsultarEstadoPedidosActivity, "Error al cargar los estados de pedidos", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@ConsultarEstadoPedidosActivity, "No tiene pedididos registrados", Toast.LENGTH_SHORT).show()
                     }
                 }
 
