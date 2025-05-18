@@ -193,8 +193,12 @@ class DetalleProductoActivity : AppCompatActivity() {
             Toast.makeText(this, "ID del producto no disponible", Toast.LENGTH_SHORT).show()
             return
         }
+        val client = OkHttpClient.Builder()
+            .addInterceptor(AuthInterceptor(this))
+            .build()
         val retrofit = Retrofit.Builder()
             .baseUrl("https://inventarios-596275467600.us-central1.run.app/api/")
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
