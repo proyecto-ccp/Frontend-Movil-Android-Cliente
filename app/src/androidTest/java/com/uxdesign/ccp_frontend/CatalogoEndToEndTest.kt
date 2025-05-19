@@ -42,7 +42,7 @@ class CatalogoEndToEndTest {
         onView(withId(R.id.buttonPedido)).perform(click())
 
         // 6. Esperar a que cargue el catálogo
-        Thread.sleep(5000)
+        Thread.sleep(8000)
 
         // 7. Verificar que se muestra el catálogo
         onView(withId(R.id.recyclerViewProductos)).check(matches(isDisplayed()))
@@ -54,7 +54,7 @@ class CatalogoEndToEndTest {
         // 9. Verificar pantalla de detalle
         onView(withId(R.id.textNombreProducto)).check(matches(isDisplayed()))
 
-        Thread.sleep(4000)
+        Thread.sleep(7000)
 
         // 10. Ingresar cantidad
         onView(withId(R.id.editCantidad)).perform(typeText("1"), closeSoftKeyboard())
@@ -63,7 +63,7 @@ class CatalogoEndToEndTest {
         // 11. Agregar producto
         onView(withId(R.id.buttonAgregar)).perform(click())
 
-        Thread.sleep(5000)
+        Thread.sleep(7000)
 
         // 12. Finalizar pedido
         onView(withId(R.id.buttonFin)).check(matches(isDisplayed()))
