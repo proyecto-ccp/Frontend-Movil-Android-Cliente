@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CPP</string>
+    <string name="app_name">CPP Cliente</string>
     <string name="iniciar">Iniciar</string>
     <string name="crear_pedido">Crear Pedido</string>
     <string name="logo_peque_o">Logo pequeño</string>

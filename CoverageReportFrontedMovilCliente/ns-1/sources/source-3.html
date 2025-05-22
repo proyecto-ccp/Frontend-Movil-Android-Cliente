@@ -1,0 +1,224 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > CatalogoProductosActivity</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.uxdesign.ccp_frontend</a>
+</div>
+
+<h1>Coverage Summary for Class: CatalogoProductosActivity (com.uxdesign.ccp_frontend)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CatalogoProductosActivity</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CatalogoProductosActivity$getCatalogo$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/50)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.uxdesign.ccp_frontend
+&nbsp;
+&nbsp;import android.content.Intent
+&nbsp;import android.os.Bundle
+&nbsp;import android.widget.Button
+&nbsp;import android.widget.ImageView
+&nbsp;import android.widget.Toast
+&nbsp;import androidx.activity.enableEdgeToEdge
+&nbsp;import androidx.appcompat.app.AppCompatActivity
+&nbsp;import androidx.constraintlayout.widget.ConstraintLayout
+&nbsp;import androidx.core.view.ViewCompat
+&nbsp;import androidx.core.view.WindowInsetsCompat
+&nbsp;import androidx.lifecycle.lifecycleScope
+&nbsp;import androidx.recyclerview.widget.LinearLayoutManager
+&nbsp;import androidx.recyclerview.widget.RecyclerView
+&nbsp;import com.uxdesign.ccp_frontend.helpers.CatalogoRepository
+&nbsp;import com.uxdesign.cpp.R
+&nbsp;import kotlinx.coroutines.launch
+&nbsp;
+<b class="nc">&nbsp;class CatalogoProductosActivity : AppCompatActivity() {</b>
+<b class="nc">&nbsp;    private val productos = mutableListOf&lt;Producto&gt;()</b>
+&nbsp;    private lateinit var apiService: ApiService
+&nbsp;    private var modoEscalaGrises = false
+<b class="nc">&nbsp;    private var color = &quot;ORANGE&quot;</b>
+<b class="nc">&nbsp;    private var idUsuario = &quot;&quot;</b>
+&nbsp;    override fun onCreate(savedInstanceState: Bundle?) {
+<b class="nc">&nbsp;        super.onCreate(savedInstanceState)</b>
+<b class="nc">&nbsp;        enableEdgeToEdge()</b>
+<b class="nc">&nbsp;        setContentView(R.layout.activity_catalogo_productos)</b>
+&nbsp;
+<b class="nc">&nbsp;        idUsuario = intent.getStringExtra(&quot;id_usuario&quot;) ?: &quot;desconocido&quot;</b>
+&nbsp;
+&nbsp;        //Adaptabilidad
+&nbsp;
+<b class="nc">&nbsp;        val mainLayout: ConstraintLayout = findViewById(R.id.main)</b>
+<b class="nc">&nbsp;        val buttonPedido: Button = findViewById(R.id.botonPedido)</b>
+<b class="nc">&nbsp;        val imageEye: ImageView = findViewById(R.id.imageOjoN)</b>
+<b class="nc">&nbsp;        val recyclerView: RecyclerView = findViewById(R.id.recyclerViewProductos)</b>
+&nbsp;
+<b class="nc">&nbsp;        imageEye.setOnClickListener {</b>
+<b class="nc">&nbsp;            modoEscalaGrises = !modoEscalaGrises</b>
+<b class="nc">&nbsp;            if (modoEscalaGrises) {</b>
+<b class="nc">&nbsp;                mainLayout.setBackgroundColor(resources.getColor(R.color.darkgrey, null))</b>
+<b class="nc">&nbsp;                buttonPedido.setBackgroundColor(resources.getColor(R.color.greytext, null))</b>
+<b class="nc">&nbsp;                imageEye.setImageResource(R.drawable.blackeye)</b>
+<b class="nc">&nbsp;                color = &quot;GREY&quot;</b>
+<b class="nc">&nbsp;                Toast.makeText(this, &quot;Se ha activado una ayuda visual&quot;, Toast.LENGTH_SHORT).show()</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                mainLayout.setBackgroundColor(resources.getColor(R.color.orange, null))</b>
+<b class="nc">&nbsp;                buttonPedido.setBackgroundColor(resources.getColor(R.color.black, null))</b>
+<b class="nc">&nbsp;                imageEye.setImageResource(R.drawable.pinkeye)</b>
+<b class="nc">&nbsp;                color = &quot;ORANGE&quot;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            val adapter = ProductoAdapter(productos, color, idUsuario)</b>
+<b class="nc">&nbsp;            recyclerView.adapter = adapter</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        buttonPedido.setOnClickListener {</b>
+<b class="nc">&nbsp;            val intent = Intent(this, VerPedidoActivity::class.java)</b>
+<b class="nc">&nbsp;            intent.putExtra(&quot;id_usuario&quot;, idUsuario)</b>
+<b class="nc">&nbsp;            intent.putExtra(&quot;color&quot;, color )</b>
+<b class="nc">&nbsp;            startActivity(intent)</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;         recyclerView.layoutManager = LinearLayoutManager(this)</b>
+&nbsp;
+<b class="nc">&nbsp;        val adapter = ProductoAdapter(productos, idUsuario, color)</b>
+<b class="nc">&nbsp;        recyclerView.adapter = adapter</b>
+&nbsp;
+<b class="nc">&nbsp;        getCatalogo()</b>
+&nbsp;
+<b class="nc">&nbsp;        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets -&gt;</b>
+<b class="nc">&nbsp;            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())</b>
+<b class="nc">&nbsp;            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)</b>
+<b class="nc">&nbsp;            insets</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private fun getCatalogo() {
+<b class="nc">&nbsp;        lifecycleScope.launch {</b>
+<b class="nc">&nbsp;            try {</b>
+<b class="nc">&nbsp;                val productosActualizados = CatalogoRepository.obtenerProductos(applicationContext)</b>
+<b class="nc">&nbsp;                productos.clear()</b>
+<b class="nc">&nbsp;                productos.addAll(productosActualizados)</b>
+<b class="nc">&nbsp;                val adapter = ProductoAdapter(productos, color, idUsuario)</b>
+<b class="nc">&nbsp;                findViewById&lt;RecyclerView&gt;(R.id.recyclerViewProductos).adapter = adapter</b>
+<b class="nc">&nbsp;                adapter.notifyDataSetChanged()</b>
+<b class="nc">&nbsp;            } catch (e: Exception) {</b>
+<b class="nc">&nbsp;                e.printStackTrace()</b>
+<b class="nc">&nbsp;                Toast.makeText(this@CatalogoProductosActivity, &quot;No se pudo cargar el catálogo: ${e.message}&quot;, Toast.LENGTH_LONG).show()</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-05-22 14:57</div>
+</div>
+</body>
+</html>

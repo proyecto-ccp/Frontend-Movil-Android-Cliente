@@ -1,0 +1,128 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ApiService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.uxdesign.ccp_frontend</a>
+</div>
+
+<h1>Coverage Summary for Class: ApiService (com.uxdesign.ccp_frontend)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ApiService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.uxdesign.ccp_frontend
+&nbsp;
+&nbsp;import okhttp3.ResponseBody
+&nbsp;import retrofit2.Call
+&nbsp;import retrofit2.http.Body
+&nbsp;import retrofit2.http.GET
+&nbsp;import retrofit2.http.POST
+&nbsp;import retrofit2.http.PUT
+&nbsp;import retrofit2.http.Path
+&nbsp;import retrofit2.http.Query
+&nbsp;
+&nbsp;interface ApiService {
+&nbsp;
+&nbsp;    @POST(&quot;Cliente/CrearCliente&quot;)
+&nbsp;    fun registrarCliente(@Body cliente: Cliente): Call&lt;ResponseBody&gt;
+&nbsp;
+&nbsp;    @GET(&quot;Atributos/TiposDocumento&quot;)
+&nbsp;    fun getTiposDocumento(): Call&lt;RespuestaTiposDocs&gt;
+&nbsp;
+&nbsp;    @GET(&quot;Productos/Consultar&quot;)
+&nbsp;    fun getProductos(): Call&lt;RespuestaProducto&gt;
+&nbsp;
+&nbsp;    @GET(&quot;atributos/Localizacion/Ciudades&quot;)
+&nbsp;    fun getCiudades(): Call&lt;RespuestaCiudad&gt;
+&nbsp;
+&nbsp;    @GET(&quot;Atributos/Localizacion/Ciudad/{IdCiudad}/Zonas&quot;)
+&nbsp;    fun getZonasPorCiudad(@Path(&quot;IdCiudad&quot;) idCiudad: String): Call&lt;RespuestaZona&gt;
+&nbsp;
+&nbsp;    @GET(&quot;Pedido/ObtenerPedidosPorCliente/{clienteId}/{estado}&quot;)
+&nbsp;    fun getPedidosPorCliente(@Path(&quot;clienteId&quot;) clienteId: String, @Path(&quot;estado&quot;) estado: String
+&nbsp;    ): Call&lt;RespuestaPedidoProcesado&gt;
+&nbsp;
+&nbsp;    @POST(&quot;DetallePedido/AgregarDetalle&quot;)
+&nbsp;    fun agregarDetallePedido(@Body detalle: ProductoCarrito): Call&lt;Void&gt;
+&nbsp;
+&nbsp;    @GET(&quot;Inventarios/Consultar&quot;)
+&nbsp;    fun getStockProducto(@Query(&quot;idProducto&quot;) idProducto: Int): Call&lt;RespuestaInventario&gt;
+&nbsp;
+&nbsp;    @GET(&quot;DetallePedido/ObtenerDetallesUsuario/{id}&quot;)
+&nbsp;    fun getDetallePedidoUsuario(@Path(&quot;id&quot;) clienteId: String): Call&lt;RespuestaDetalleCarrito&gt;
+&nbsp;
+&nbsp;    @GET(&quot;DetallePedido/ObtenerDetalles/{id}&quot;)
+&nbsp;    fun getDetallePedido(@Path(&quot;id&quot;) pedidoId: String): Call&lt;RespuestaDetallePedido&gt;
+&nbsp;
+&nbsp;   @POST(&quot;Pedido/CrearPedido&quot;)
+&nbsp;    fun crearPedido(@Body request: Pedido): Call&lt;RespuestaRequestPedido&gt;
+&nbsp;
+&nbsp;    @PUT(&quot;DetallePedido/ActualizarDetalles/{idUsuario}/{idPedido}&quot;)
+&nbsp;    fun enlazarDetallePedido(@Path(&quot;idUsuario&quot;) idUsuario: String,
+&nbsp;        @Path(&quot;idPedido&quot;) idPedido: String): Call&lt;RespuestaRequestPedido&gt;
+&nbsp;
+&nbsp;    @GET(&quot;Cliente/ObtenerCliente/{id}&quot;)
+&nbsp;    fun getClienteId(@Path(&quot;id&quot;) clienteId: String): Call&lt;SingleCliente&gt;
+&nbsp;
+&nbsp;    @POST(&quot;Usuarios/Login&quot;)
+&nbsp;    fun login(@Body request: LoginRequest ): Call&lt;RespuestaLogin&gt;
+&nbsp;
+&nbsp;    @GET(&quot;Usuarios/{id}&quot;)
+&nbsp;    fun getIdCliente(@Path(&quot;id&quot;) idUsuario: String):Call&lt;RespuestaUsuario&gt;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-05-22 14:57</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,162 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > MenuActivity</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.uxdesign.ccp_frontend</a>
+</div>
+
+<h1>Coverage Summary for Class: MenuActivity (com.uxdesign.ccp_frontend)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MenuActivity</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/31)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.uxdesign.ccp_frontend
+&nbsp;
+&nbsp;import android.content.Intent
+&nbsp;import android.os.Bundle
+&nbsp;import android.widget.Button
+&nbsp;import androidx.activity.enableEdgeToEdge
+&nbsp;import androidx.appcompat.app.AppCompatActivity
+&nbsp;import androidx.core.view.ViewCompat
+&nbsp;import androidx.core.view.WindowInsetsCompat
+&nbsp;import com.uxdesign.cpp.R
+&nbsp;import com.uxdesign.cpp.utils.TokenManager
+&nbsp;
+<b class="nc">&nbsp;class MenuActivity : AppCompatActivity() {</b>
+&nbsp;    private lateinit var idUsuario: String
+&nbsp;    override fun onCreate(savedInstanceState: Bundle?) {
+<b class="nc">&nbsp;        super.onCreate(savedInstanceState)</b>
+<b class="nc">&nbsp;        enableEdgeToEdge()</b>
+<b class="nc">&nbsp;        setContentView(R.layout.activity_menu)</b>
+&nbsp;
+<b class="nc">&nbsp;        idUsuario = intent.getStringExtra(&quot;id_usuario&quot;) ?: &quot;desconocido&quot;</b>
+&nbsp;
+<b class="nc">&nbsp;        val buttonCatalogo: Button = findViewById(R.id.buttonPedido)</b>
+<b class="nc">&nbsp;        buttonCatalogo.setOnClickListener {</b>
+<b class="nc">&nbsp;            val intent = Intent(this, CatalogoProductosActivity::class.java)</b>
+<b class="nc">&nbsp;            intent.putExtra(&quot;id_usuario&quot;, idUsuario)</b>
+<b class="nc">&nbsp;            startActivity(intent)</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        val buttonEstadoPedido: Button = findViewById(R.id.buttonConsultarEstadoPedido)</b>
+<b class="nc">&nbsp;        buttonEstadoPedido.setOnClickListener {</b>
+<b class="nc">&nbsp;            val intent = Intent(this, ConsultarEstadoPedidosActivity::class.java)</b>
+<b class="nc">&nbsp;            intent.putExtra(&quot;id_usuario&quot;, idUsuario)</b>
+<b class="nc">&nbsp;            startActivity(intent)</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        val buttonEntregaProgamada: Button = findViewById(R.id.buttonEntrega)</b>
+<b class="nc">&nbsp;        buttonEntregaProgamada.setOnClickListener {</b>
+<b class="nc">&nbsp;            val intent = Intent(this, EntregaProgramadaActivity::class.java)</b>
+<b class="nc">&nbsp;            intent.putExtra(&quot;id_usuario&quot;, idUsuario)</b>
+<b class="nc">&nbsp;            startActivity(intent)</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        val buttonCerrarSesion: Button = findViewById(R.id.buttonCerrar)</b>
+<b class="nc">&nbsp;        buttonCerrarSesion.setOnClickListener {</b>
+<b class="nc">&nbsp;            TokenManager.clearToken(this)</b>
+<b class="nc">&nbsp;            val intent = Intent(this, MainActivity::class.java)</b>
+<b class="nc">&nbsp;            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK</b>
+<b class="nc">&nbsp;            startActivity(intent)</b>
+<b class="nc">&nbsp;            finish()</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets -&gt;</b>
+<b class="nc">&nbsp;            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())</b>
+<b class="nc">&nbsp;            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)</b>
+<b class="nc">&nbsp;            insets</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-05-22 14:57</div>
+</div>
+</body>
+</html>
