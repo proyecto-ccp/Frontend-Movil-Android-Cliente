@@ -1,5 +1,6 @@
 package com.uxdesign.ccp_frontend
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -17,7 +18,8 @@ class MenuActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_menu)
 
-        idUsuario = intent.getStringExtra("id_usuario") ?: "desconocido"
+        val prefs = getSharedPreferences("Ajustes", Context.MODE_PRIVATE)
+        idUsuario = prefs.getString("id_usuario", "desconocido") ?: "sinId"
 
         val buttonCatalogo: Button = findViewById(R.id.buttonPedido)
         buttonCatalogo.setOnClickListener {

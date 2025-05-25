@@ -1,5 +1,6 @@
 package com.uxdesign.ccp_frontend
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -105,7 +106,7 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             this@MainActivity,
-                            loginResponse.mensaje,
+                            "No es un usuario autorizado para la aplicación",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -143,6 +144,8 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful && loginResponse != null) {
                     Log.i("ID_USUARIO", Gson().toJson(loginResponse))
                     idUsuario = loginResponse.idPerfil
+                    val prefs = getSharedPreferences("Ajustes", Context.MODE_PRIVATE)
+                    prefs.edit().putString("id_usuario", idUsuario).apply()
                     val intent = Intent(this@MainActivity, MenuActivity::class.java)
                     intent.putExtra("id_usuario", idUsuario)
                     startActivity(intent)

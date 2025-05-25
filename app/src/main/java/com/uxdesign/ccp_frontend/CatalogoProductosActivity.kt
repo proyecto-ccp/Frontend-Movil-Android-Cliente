@@ -34,6 +34,7 @@ class CatalogoProductosActivity : AppCompatActivity() {
 
         val mainLayout: ConstraintLayout = findViewById(R.id.main)
         val buttonPedido: Button = findViewById(R.id.botonPedido)
+        val buttonMenu: Button = findViewById(R.id.botonVolverMenu)
         val imageEye: ImageView = findViewById(R.id.imageOjoN)
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewProductos)
 
@@ -53,6 +54,12 @@ class CatalogoProductosActivity : AppCompatActivity() {
             }
             val adapter = ProductoAdapter(productos, color, idUsuario)
             recyclerView.adapter = adapter
+        }
+
+        buttonMenu.setOnClickListener {
+            val intent = Intent(this, MenuActivity::class.java)
+            intent.putExtra("id_usuario", idUsuario)
+            startActivity(intent)
         }
 
         buttonPedido.setOnClickListener {
